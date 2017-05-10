@@ -20,4 +20,4 @@ def sendSMS(recipientNumber, message):
     print(message.sid);
     return;
 
-sendSMS(tokenDict["my_number"], "test");
+sendSMS(tokenDict["my_number"], "howdy");
