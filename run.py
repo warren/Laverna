@@ -21,12 +21,13 @@ def sms_reply():
     resp = MessagingResponse()
 
     # Add a text message
-    mainLottery.addUser("phonenumberplaceholder");
-    msg = resp.message("Thanks for the text! You have been added to the lottery.");
-
-
-    # Add a picture message
-    #msg.media("https://farm8.staticflickr.com/7090/6941316406_80b4d6d50e_z_d.jpg")
+    fromNumber = request.values.get("From", None);
+    listOfUsers = mainLottery.getListOfUsers();
+    if fromNumber in listOfUsers:
+        msg = resp.message("Thanks for the text, " + str(fromNumber) + ", but you are already in the lottery!");
+    else:
+        mainLottery.addUser(fromNumber);
+        msg = resp.message("Thanks for the text, " + str(fromNumber) + "! You have been added to the lottery.");
 
     return str(resp);
 
