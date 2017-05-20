@@ -1,7 +1,6 @@
 import time;
 from threading import Timer;
-#from twilioSMS import *;
-# TODO: Properly import twilioSMS
+from twilioSMS import *;
 
 TIMER_LENGTH = 30.0; # Time is measured in seconds
 
@@ -89,4 +88,4 @@ class matcherTimer():
 
         return;
 
-mainLottery = matcherTimer(); # WHY DOES THIS MAKE DUPLICATES
+#mainLottery = matcherTimer(); # WHY DOES THIS MAKE DUPLICATES

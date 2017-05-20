@@ -33,6 +33,6 @@ def sms_reply():
 
 
 if __name__ == "__main__":
-    #mainLottery = matcherTimer();
+    mainLottery = matcherTimer();
     # This creates a duplicate MT because the server restarts on startup
     app.run(debug=True, host="0.0.0.0");

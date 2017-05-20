@@ -1,7 +1,7 @@
 from twilio.rest import Client;
 
 tokenDict = {}; # Gets Twilio tokens from separate file
-with open("tokens_DONOTPUSH.txt") as tokenfile:
+with open("backend/tokens_DONOTPUSH.txt") as tokenfile: # Path starts at backend/ because this module being run from run.py
     for line in tokenfile:
         (key, val) = line.split();
         tokenDict[key] = val;
@@ -19,5 +19,3 @@ def sendSMS(recipientNumber, message):
         body = message);
     print(message.sid);
     return;
-
-sendSMS(tokenDict["my_number"], "howdy");
