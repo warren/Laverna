@@ -1,34 +1,48 @@
 import time;
 from threading import Timer;
+#from twilioSMS import *;
+# TODO: Properly import twilioSMS
+
+TIMER_LENGTH = 30.0; # Time is measured in seconds
 
 class matcherTimer():
     def __init__(self):
-        self.users = []; # Array of users in the matcher
+        self.users = []; # Declares empty array of users in the matcher
 
-        self.timer = Timer(60.0, self.pairUsers); # Prepares threaded timer
+        self.timer = Timer(TIMER_LENGTH, self.pairUsers); # Prepares threaded timer
         self.startTime = time.time(); # Sets start time so we can later check how long the timer has been running
         self.timer.start(); # Starts the threaded timer
 
-        print("New matcher timer created.");
+        print("New matcher timer created for time {}.".format(TIMER_LENGTH));
 
     def resetTimer(self):
-        self.timer = Timer(5.0, self.pairUsers); # Sets start time to current time
+        self.timer = Timer(TIMER_LENGTH, self.pairUsers); # Sets start time to current time
+        print("Matcher timer was just reset to length {}.".format(TIMER_LENGTH));
+        self.startTime = time.time();
+        self.timer.start();
+
         return;
 
     def getTimerUptime(self):
         return time.time() - self.startTime;
 
     def getTimeLeft(self):
-        return (60*60) - self.getTimerUptime();
-        # Time left out of an hour: 60 seconds * 60 minutes
+        return TIMER_LENGTH - self.getTimerUptime();
 
     def addUser(self, userNumber):
         self.users.append(userNumber);
-        print("User was just added to the matcher timer with phone number " + str(userNumber));
+        print("User was just added to the matcher timer with phone number {}.".format(userNumber));
         return;
 
     def removeUser(self, userNumber):
-        #TODO Make this remove a user from the matcher by phone number
+        for i in self.users:
+            if self.users[i] == userNumber:
+                # TODO: self.users.remove(INDEX OF i)
+                print("Successfully removed user from matcher with phone number {}.".format(userNumber));
+                return;
+
+        print("ERROR: Tried to remove a user from the matcher who was not present in the matcher, with" + \
+        "phone number {}.".format(userNumber));
         return;
 
     def getListOfUsers(self):
@@ -37,21 +51,42 @@ class matcherTimer():
     def getNumberOfUsers(self):
         return len(self.users);
 
+    def resetMatcherTimer(self):
+        self.users = [];
+        self.resetTimer();
+        return;
+
     def pairUsers(self):
         if self.getNumberOfUsers() <= 1: # If there aren't enough users
-            print("There were too few users in the lottery to start.");
+            print("There were too few users in the lottery to start. Printing list of users below:");
             print(self.getListOfUsers);
+
+            for iterUser in self.users: # This should actually only send one message, since "too few" means <= 1 user
+                sendSMS(iterUser, "Sorry about this, but there were too few users in the matching system " + \
+                "to start a round! If you would like to be added to the next round though, just text this number again.");
+            self.resetMatcherTimer();
             return;
+
         elif self.getNumberOfUsers() % 2 == 1: # If there are an odd number of users
             aloneUserNumber = self.getListOfUsers[0]; # Picks one person to sit out
             self.removeUser(aloneUserNumber);
-            #TODO: Send message to the alone user saying they were chosen to sit out
+            sendSMS(aloneUserNumber, "Sorry about this, but there was an odd " + \
+            "number of users in the matching system! You were chosen to sit out. " + \
+            "If you would like to be added to the next round of matching, just text this number again.");
+            # Sends message to the alone user saying they were chosen to sit out
 
-        random.shuffle(self.users);
-        userPairs = zip(*[iter(self.users)]*2);
-        print("Users have been paired. Pairings as follows:")
-
+        # We reach this point in the code if we have a good number of users to start a round.
+        random.shuffle(self.users); # Scrambles the users in the list
+        userPairs = zip(*[iter(self.users)]*2); # Pairs the users
+        print("Users have been paired. Pairings as follows:");
         for firstUser, secondUser in userPairs:
-            print(str(firstUser), "and", str(secondUser));
+            print("{} and {}".format(firstUser, secondUser));
+            #print(str(firstUser), "and", str(secondUser));
+
+        # TODO: Actually write the method that will connect the users over Twilio
+
+        self.resetMatcherTimer(); # Resets the timer to do this all over again
 
         return;
+
+mainLottery = matcherTimer(); # WHY DOES THIS MAKE DUPLICATES

@@ -24,14 +24,15 @@ def sms_reply():
     fromNumber = request.values.get("From", None);
     listOfUsers = mainLottery.getListOfUsers();
     if fromNumber in listOfUsers:
-        msg = resp.message("Thanks for the text, " + str(fromNumber) + ", but you are already in the lottery!");
+        msg = resp.message("Thanks for the text, {}, but you are already in the lottery!".format(fromNumber));
     else:
         mainLottery.addUser(fromNumber);
-        msg = resp.message("Thanks for the text, " + str(fromNumber) + "! You have been added to the lottery.");
+        msg = resp.message("Thanks for the text, {}! You have been added to the lottery.".format(fromNumber));
 
     return str(resp);
 
 
 if __name__ == "__main__":
-    mainLottery = matcherTimer();
+    #mainLottery = matcherTimer();
+    # This creates a duplicate MT because the server restarts on startup
     app.run(debug=True, host="0.0.0.0");
