@@ -87,5 +87,3 @@ class matcherTimer():
         self.resetMatcherTimer(); # Resets the timer to do this all over again
 
         return;
-
-#mainLottery = matcherTimer(); # WHY DOES THIS MAKE DUPLICATES
