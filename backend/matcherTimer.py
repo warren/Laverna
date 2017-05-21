@@ -1,4 +1,4 @@
-import time;
+import time, random;
 from threading import Timer;
 from twilioSMS import *;
 
@@ -76,13 +76,14 @@ class matcherTimer():
 
         # We reach this point in the code if we have a good number of users to start a round.
         random.shuffle(self.users); # Scrambles the users in the list
-        userPairs = zip(*[iter(self.users)]*2); # Pairs the users
+        userPairs = list(zip(*[iter(self.users)]*2)); # Pairs the users
         print("Users have been paired. Pairings as follows:");
         for firstUser, secondUser in userPairs:
             print("{} and {}".format(firstUser, secondUser));
-            #print(str(firstUser), "and", str(secondUser));
 
-        # TODO: Actually write the method that will connect the users over Twilio
+        # TODO: Actually write the method that will connect the users over Twilio:
+        # - Send destructor call to smsConnector object
+        # - Generate new smsConnector object with new user set
 
         self.resetMatcherTimer(); # Resets the timer to do this all over again
 
