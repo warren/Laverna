@@ -1,6 +1,7 @@
 import time, random;
 from threading import Timer;
 from twilioSMS import *;
+from smsConnector import *;
 
 TIMER_LENGTH = 30.0; # Time is measured in seconds
 
@@ -81,9 +82,8 @@ class matcherTimer():
         for firstUser, secondUser in userPairs:
             print("{} and {}".format(firstUser, secondUser));
 
-        # TODO: Actually write the method that will connect the users over Twilio:
-        # - Send destructor call to smsConnector object
-        # - Generate new smsConnector object with new user set
+        # del mainConnector; # TODO: Test if this is necessary
+        mainConnector = mainConnector(self.users, userPairs);
 
         self.resetMatcherTimer(); # Resets the timer to do this all over again
 

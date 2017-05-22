@@ -21,11 +21,11 @@ def sms_reply():
     resp = MessagingResponse() # Start our TwiML response
 
     fromNumber = request.values.get("From", None); # Add a text message
-    listOfWaitingUsers = mainLottery.getListOfUsers();
 
-    # TODO: Check if user is in smsConnector. If they are, reroute their message. Else:
-
-    if fromNumber in listOfWaitingUsers:
+    if fromNumber in mainConnector.getUsers():
+        # TODO: Reroute message to the appropriate paired user
+        print("{} is in the group of active users, and is paired with {}".format(fromNumber, mainConnector.getUserPairing(fromNumber)));
+    elif fromNumber in mainLottery.getListOfUsers():
         msg = resp.message("Thanks for the text, {}, but you are already in the lottery!".format(fromNumber));
         # TODO: Implement a way for users to deadd themselves from the queue
     else:
@@ -37,4 +37,5 @@ def sms_reply():
 
 if __name__ == "__main__":
     mainLottery = matcherTimer();
+    mainConnector = smsConnector([], []);
     app.run(debug=True, use_reloader=False, host="0.0.0.0");

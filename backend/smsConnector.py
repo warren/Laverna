@@ -5,6 +5,12 @@ class smsConnector():
         self.users = users;
         self.userPairs = userPairs;
 
+    def getUsers(self):
+        return self.users;
+
+    def getUserPairs(self):
+        return self.userPairs;
+
     def containsUserNumber(self, userNumber):
         if userNumber in self.users:
             return True;
