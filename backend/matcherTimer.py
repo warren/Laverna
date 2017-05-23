@@ -83,7 +83,7 @@ class matcherTimer():
             print("{} and {}".format(firstUser, secondUser));
 
         # del mainConnector; # TODO: Test if this is necessary
-        mainConnector = mainConnector(self.users, userPairs);
+        mainConnector = smsConnector(self.users, userPairs);
 
         self.resetMatcherTimer(); # Resets the timer to do this all over again
 
