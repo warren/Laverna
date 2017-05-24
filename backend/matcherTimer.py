@@ -1,13 +1,14 @@
 import time, random;
 from threading import Timer;
 from twilioSMS import *;
-from smsConnector import *;
 
 TIMER_LENGTH = 30.0; # Time is measured in seconds
 
 class matcherTimer():
     def __init__(self):
-        self.users = []; # Declares empty array of users in the matcher
+        self.waitingUsers = []; # Declares empty array of users waiting to be matched
+        self.activeUsers = []; # Declares empty array of matched users
+        self.activeUserPairs = [[]]; # Declares empty 2-d array of matched users
 
         self.timer = Timer(TIMER_LENGTH, self.pairUsers); # Prepares threaded timer
         self.startTime = time.time(); # Sets start time so we can later check how long the timer has been running
@@ -20,7 +21,6 @@ class matcherTimer():
         print("Matcher timer was just reset to length {}.".format(TIMER_LENGTH));
         self.startTime = time.time();
         self.timer.start();
-
         return;
 
     def getTimerUptime(self):
@@ -29,15 +29,15 @@ class matcherTimer():
     def getTimeLeft(self):
         return TIMER_LENGTH - self.getTimerUptime();
 
-    def addUser(self, userNumber):
-        self.users.append(userNumber);
+    def addWaitingUser(self, userNumber):
+        self.waitingUsers.append(userNumber);
         print("User was just added to the matcher timer with phone number {}.".format(userNumber));
         return;
 
-    def removeUser(self, userNumber):
-        for i in self.users:
-            if self.users[i] == userNumber:
-                # TODO: self.users.remove(INDEX OF i)
+    def removeWaitingUser(self, userNumber):
+        for i in self.waitingUsers:
+            if self.waitingUsers[i] == userNumber:
+                # TODO: self.waitingUsers.remove(INDEX OF i)
                 print("Successfully removed user from matcher with phone number {}.".format(userNumber));
                 return;
 
@@ -45,46 +45,68 @@ class matcherTimer():
         "phone number {}.".format(userNumber));
         return;
 
-    def getListOfUsers(self):
-        return self.users;
+    def getWaitingUsers(self):
+        return self.waitingUsers;
 
-    def getNumberOfUsers(self):
-        return len(self.users);
+    def getNumberOfWaitingUsers(self):
+        return len(self.waitingUsers);
 
     def resetMatcherTimer(self):
-        self.users = [];
+        self.waitingUsers = [];
         self.resetTimer();
         return;
 
     def pairUsers(self):
-        if self.getNumberOfUsers() <= 1: # If there aren't enough users
-            print("There were too few users in the lottery to start. Printing list of users below:");
-            print(self.getListOfUsers);
+        if self.getNumberOfWaitingUsers() <= 1: # If there aren't enough waitingUsers
+            print("There were too few waitingUsers in the lottery to start. Printing list of waitingUsers below:");
+            print(self.getWaitingUsers);
 
-            for iterUser in self.users: # This should actually only send one message, since "too few" means <= 1 user
-                sendSMS(iterUser, "Sorry about this, but there were too few users in the matching system " + \
+            for iterUser in self.waitingUsers: # This should actually only send one message, since "too few" means <= 1 user
+                sendSMS(iterUser, "Sorry about this, but there were too few waitingUsers in the matching system " + \
                 "to start a round! If you would like to be added to the next round though, just text this number again.");
             self.resetMatcherTimer();
             return;
 
-        elif self.getNumberOfUsers() % 2 == 1: # If there are an odd number of users
-            aloneUserNumber = self.getListOfUsers[0]; # Picks one person to sit out
-            self.removeUser(aloneUserNumber);
+        elif self.getNumberOfWaitingUsers() % 2 == 1: # If there are an odd number of waitingUsers
+            aloneUserNumber = self.getWaitingUsers[0]; # Picks one person to sit out
+            self.removeWaitingUser(aloneUserNumber);
             sendSMS(aloneUserNumber, "Sorry about this, but there was an odd " + \
-            "number of users in the matching system! You were chosen to sit out. " + \
+            "number of waitingUsers in the matching system! You were chosen to sit out. " + \
             "If you would like to be added to the next round of matching, just text this number again.");
             # Sends message to the alone user saying they were chosen to sit out
 
-        # We reach this point in the code if we have a good number of users to start a round.
-        random.shuffle(self.users); # Scrambles the users in the list
-        userPairs = list(zip(*[iter(self.users)]*2)); # Pairs the users
-        print("Users have been paired. Pairings as follows:");
-        for firstUser, secondUser in userPairs:
-            print("{} and {}".format(firstUser, secondUser));
+        # We reach this point in the code if we have a good number of waitingUsers to start a round.
+        random.shuffle(self.waitingUsers); # Scrambles the waitingUsers in the list
+        self.activeUsers = self.waitingUsers;
+        self.activeUserPairs = list(zip(*[iter(self.waitingUsers)]*2)); # Pairs the waitingUsers
 
-        # del mainConnector; # TODO: Test if this is necessary
-        mainConnector = smsConnector(self.users, userPairs);
+        print("Users have been paired. Pairings as follows:");
+        for firstUser, secondUser in self.activeUserPairs:
+            print("{} and {}".format(firstUser, secondUser));
 
         self.resetMatcherTimer(); # Resets the timer to do this all over again
 
         return;
+
+    # This is where I combined the matcherTimer and smsConnector files. The following methods
+    # pertain to the matched users:
+
+    def getActiveUsers(self):
+        return self.activeUsers;
+
+    def containsUserNumber(self, userNumber):
+        if userNumber in self.activeUsers:
+            return True;
+        else:
+            return False;
+
+    def getUserPairing(self, userNumber):
+        if self.containsUserNumber(userNumber):
+            for i in range(len(self.activeUserPairs)): # Search in activeUserPairs to find pairing
+                if userNumber in self.activeUserPairs[i]:
+                    if userNumber == self.activeUserPairs[i][0]:
+                        return self.activeUserPairs[i][1];
+                    else:
+                        return self.activeUserPairs[i][0];
+        else:
+            return "NO PAIRING";

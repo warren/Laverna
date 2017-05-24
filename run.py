@@ -18,24 +18,23 @@ def about():
 
 @app.route("/sms", methods=['GET', 'POST'])
 def sms_reply():
-    resp = MessagingResponse() # Start our TwiML response
+    resp = MessagingResponse(); # Start our TwiML response
 
     fromNumber = request.values.get("From", None); # Add a text message
 
-    if fromNumber in mainConnector.getUsers():
+    if fromNumber in mainLottery.getActiveUsers():
         # TODO: Reroute message to the appropriate paired user
-        print("{} is in the group of active users, and is paired with {}".format(fromNumber, mainConnector.getUserPairing(fromNumber)));
-    elif fromNumber in mainLottery.getListOfUsers():
+        print("{} is in the group of active users, and is paired with {}".format(fromNumber, mainLottery.getUserPairing(fromNumber)));
+    elif fromNumber in mainLottery.getWaitingUsers():
         msg = resp.message("Thanks for the text, {}, but you are already in the lottery!".format(fromNumber));
         # TODO: Implement a way for users to deadd themselves from the queue
     else:
-        mainLottery.addUser(fromNumber);
-        msg = resp.message("Thanks for the text, {}! You have been added to the lottery.".format(fromNumber));
+        mainLottery.addWaitingUser(fromNumber);
+        #msg = resp.message("Thanks for the text, {}! You have been added to the lottery.".format(fromNumber));
 
     return str(resp);
 
 
 if __name__ == "__main__":
     mainLottery = matcherTimer();
-    mainConnector = smsConnector([], []);
     app.run(debug=True, use_reloader=False, host="0.0.0.0");
