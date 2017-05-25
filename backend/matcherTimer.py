@@ -3,6 +3,7 @@ from threading import Timer;
 from twilioSMS import *;
 
 TIMER_LENGTH = 30.0; # Time is measured in seconds
+WARNING_TIMER_LENGTH = 25.0;
 
 class matcherTimer():
     def __init__(self):
@@ -12,9 +13,13 @@ class matcherTimer():
 
         # TODO: Start another timer to send users a warning when the pairings will shuffle
 
-        self.timer = Timer(TIMER_LENGTH, self.pairUsers); # Prepares threaded timer
+        self.timer = Timer(TIMER_LENGTH, self.pairUsers); # Prepares main threaded timer
         self.startTime = time.time(); # Sets start time so we can later check how long the timer has been running
         self.timer.start(); # Starts the threaded timer
+
+        # self.warningTimer = Timer(WARNING_TIMER_LENGTH, self.warnWaitingUsers); # Prepares warning timer
+        # self.timer.start();
+        # Find way around this, only one threaded timer can exist at a time in classes
 
         print("New matcher timer created for time {}.".format(TIMER_LENGTH));
 
@@ -37,15 +42,14 @@ class matcherTimer():
         return;
 
     def removeWaitingUser(self, userNumber):
-        for i in self.waitingUsers:
-            if self.waitingUsers[i] == userNumber:
-                # TODO: self.waitingUsers.remove(INDEX OF i)
-                print("Successfully removed user from matcher with phone number {}.".format(userNumber));
-                return;
-
-        print("ERROR: Tried to remove a user from the matcher who was not present in the matcher, with" + \
-        "phone number {}.".format(userNumber));
-        return;
+        if userNumber in self.waitingUsers:
+            self.waitingUsers.remove(userNumber);
+            print("Successfully removed user from matcher with phone number {}.".format(userNumber));
+            return;
+        else:
+            print("ERROR: Tried to remove a user from the matcher who was not present in the matcher, with" + \
+            "phone number {}.".format(userNumber));
+            return;
 
     def getWaitingUsers(self):
         return self.waitingUsers;
@@ -58,13 +62,18 @@ class matcherTimer():
         self.resetTimer();
         return;
 
+    def warnWaitingUsers(self):
+        # TODO: Implement this
+        return;
+
     def pairUsers(self):
         if self.getNumberOfWaitingUsers() <= 1: # If there aren't enough waitingUsers
-            print("There were too few waitingUsers in the lottery to start. Printing list of waitingUsers below:");
+            print("There were too few waiting users to start. Printing list of waitingUsers below:");
             print(self.getWaitingUsers);
+            # TODO: Fix this debug message work, right now it just points to memory address with list
 
             for iterUser in self.waitingUsers: # This should actually only send one message, since "too few" means <= 1 user
-                sendSMS(iterUser, "Sorry about this, but there were too few waitingUsers in the matching system " + \
+                sendSMS(iterUser, "Sorry! There were too few players in the matching system " + \
                 "to start a round! If you would like to be added to the next round though, just text this number again.");
             self.resetMatcherTimer();
             return;
@@ -72,18 +81,23 @@ class matcherTimer():
         elif self.getNumberOfWaitingUsers() % 2 == 1: # If there are an odd number of waitingUsers
             aloneUserNumber = self.getWaitingUsers[0]; # Picks one person to sit out
             self.removeWaitingUser(aloneUserNumber);
-            sendSMS(aloneUserNumber, "Sorry about this, but there was an odd " + \
-            "number of waitingUsers in the matching system! You were chosen to sit out. " + \
+            sendSMS(aloneUserNumber, "Sorry! There was an odd " + \
+            "number of players in the matching system! To pair everyone evenly you were chosen to sit out. " + \
             "If you would like to be added to the next round of matching, just text this number again.");
             # Sends message to the alone user saying they were chosen to sit out
 
         # We reach this point in the code if we have a good number of waitingUsers to start a round.
+        for finishedUser in activeUsers:
+            sendSMS(finishedUser, "Hey {}-- thanks for playing! The round is now over. To play again, text this number again!".format(finishedUser));
+
         random.shuffle(self.waitingUsers); # Scrambles the waitingUsers in the list
         self.activeUsers = self.waitingUsers;
         self.activeUserPairs = list(zip(*[iter(self.waitingUsers)]*2)); # Pairs the waitingUsers
 
         print("Users have been paired. Pairings as follows:");
         for firstUser, secondUser in self.activeUserPairs:
+            sendSMS(firstUser, "Hey {}-- you are now paired with a random person. Say hi!".format(firstUser));
+            sendSMS(secondUser, "Hey {}-- you are now paired with a random person. Say hi!".format(secondUser));
             print("{} and {}".format(firstUser, secondUser));
 
         self.resetMatcherTimer(); # Resets the timer to do this all over again
@@ -112,3 +126,7 @@ class matcherTimer():
                         return self.activeUserPairs[i][0];
         else:
             return "NO PAIRING";
+
+    def warnActiveUsers(self):
+        # TODO: Make this do stuff
+        return;

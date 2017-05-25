@@ -26,11 +26,13 @@ def sms_reply():
         fromMessage = request.values.get("Body", None);
         sendSMS(mainLottery.getUserPairing(fromNumber), fromMessage);
     elif fromNumber in mainLottery.getWaitingUsers():
-        msg = resp.message("Thanks for the text, {}, but you are already in the lottery!".format(fromNumber));
+        msg = resp.message("Hey again {}-- you're currently registered for the next round, which will begin in placeholder years.".format(fromNumber));
+        # TODO: Tell user when round will start
         # TODO: Implement a way for users to deadd themselves from the queue
     else:
         mainLottery.addWaitingUser(fromNumber);
-        msg = resp.message("Thanks for the text, {}! You have been added to the lottery.".format(fromNumber));
+        msg = resp.message("Thanks for the text, {}! You're now in the queue for the next round.".format(fromNumber));
+        # TODO: Tell user when round will start
 
     return str(resp);
 
