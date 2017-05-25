@@ -4,7 +4,7 @@ from twilio.twiml.messaging_response import MessagingResponse;
 import sys;
 sys.path.insert(0, "backend/"); # Allows importing from backend directory
 from matcherTimer import *;
-from smsConnector import *;
+from twilioSMS import *;
 
 app = Flask(__name__);
 
@@ -20,17 +20,17 @@ def about():
 def sms_reply():
     resp = MessagingResponse(); # Start our TwiML response
 
-    fromNumber = request.values.get("From", None); # Add a text message
+    fromNumber = request.values.get("From", None);
 
     if fromNumber in mainLottery.getActiveUsers():
-        # TODO: Reroute message to the appropriate paired user
-        print("{} is in the group of active users, and is paired with {}".format(fromNumber, mainLottery.getUserPairing(fromNumber)));
+        fromMessage = request.values.get("Body", None);
+        sendSMS(mainLottery.getUserPairing(fromNumber), fromMessage);
     elif fromNumber in mainLottery.getWaitingUsers():
         msg = resp.message("Thanks for the text, {}, but you are already in the lottery!".format(fromNumber));
         # TODO: Implement a way for users to deadd themselves from the queue
     else:
         mainLottery.addWaitingUser(fromNumber);
-        #msg = resp.message("Thanks for the text, {}! You have been added to the lottery.".format(fromNumber));
+        msg = resp.message("Thanks for the text, {}! You have been added to the lottery.".format(fromNumber));
 
     return str(resp);
 

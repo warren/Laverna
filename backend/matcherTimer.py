@@ -10,6 +10,8 @@ class matcherTimer():
         self.activeUsers = []; # Declares empty array of matched users
         self.activeUserPairs = [[]]; # Declares empty 2-d array of matched users
 
+        # TODO: Start another timer to send users a warning when the pairings will shuffle
+
         self.timer = Timer(TIMER_LENGTH, self.pairUsers); # Prepares threaded timer
         self.startTime = time.time(); # Sets start time so we can later check how long the timer has been running
         self.timer.start(); # Starts the threaded timer
