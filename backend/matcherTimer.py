@@ -11,15 +11,12 @@ class matcherTimer():
         self.activeUsers = []; # Declares empty array of matched users
         self.activeUserPairs = [[]]; # Declares empty 2-d array of matched users
 
-        # TODO: Start another timer to send users a warning when the pairings will shuffle
-
         self.timer = Timer(TIMER_LENGTH, self.pairUsers); # Prepares main threaded timer
         self.startTime = time.time(); # Sets start time so we can later check how long the timer has been running
         self.timer.start(); # Starts the threaded timer
 
-        # self.warningTimer = Timer(WARNING_TIMER_LENGTH, self.warnWaitingUsers); # Prepares warning timer
-        # self.timer.start();
-        # Find way around this, only one threaded timer can exist at a time in classes
+        self.warningTimer = Timer(WARNING_TIMER_LENGTH, self.warnActiveUsers); # Prepares warning timer
+        self.warningTimer.start();
 
         print("New matcher timer created for time {}.".format(TIMER_LENGTH));
 
@@ -31,10 +28,19 @@ class matcherTimer():
         return;
 
     def getTimerUptime(self):
-        return time.time() - self.startTime;
+        return time.time() - self.startTime; # Returns in seconds
 
     def getTimeLeft(self):
-        return TIMER_LENGTH - self.getTimerUptime();
+        secondsLeft = TIMER_LENGTH - self.getTimerUptime();
+        hours, remainder = divmod(secondsLeft, 3600);
+        minutes, seconds = divmod(remainder, 60);
+        returnMessage = "";
+        if int(hours) > 0:
+            returnMessage += "{} hours, ".format(int(hours));
+        if int(minutes) > 0:
+            returnMessage += "{} minutes, ".format(int(minutes));
+        returnMessage += "{} seconds".format(int(seconds));
+        return returnMessage;
 
     def addWaitingUser(self, userNumber):
         self.waitingUsers.append(userNumber);
@@ -62,10 +68,6 @@ class matcherTimer():
         self.resetTimer();
         return;
 
-    def warnWaitingUsers(self):
-        # TODO: Implement this
-        return;
-
     def pairUsers(self):
         if self.getNumberOfWaitingUsers() <= 1: # If there aren't enough waitingUsers
             print("There were too few waiting users to start. Printing list of waitingUsers below:");
@@ -73,15 +75,15 @@ class matcherTimer():
             # TODO: Fix this debug message work, right now it just points to memory address with list
 
             for iterUser in self.waitingUsers: # This should actually only send one message, since "too few" means <= 1 user
-                sendSMS(iterUser, "Sorry! There were too few players in the matching system " + \
+                sendSMS(iterUser, "Hey {}. Sorry, but there were too few players in the matching system ".format(iterUser) + \
                 "to start a round! If you would like to be added to the next round though, just text this number again.");
             self.resetMatcherTimer();
             return;
 
         elif self.getNumberOfWaitingUsers() % 2 == 1: # If there are an odd number of waitingUsers
-            aloneUserNumber = self.getWaitingUsers[0]; # Picks one person to sit out
-            self.removeWaitingUser(aloneUserNumber);
-            sendSMS(aloneUserNumber, "Sorry! There was an odd " + \
+            aloneUser = self.getWaitingUsers[0]; # Picks one person to sit out
+            self.removeWaitingUser(aloneUser);
+            sendSMS(aloneUser, "Sorry! There was an odd " + \
             "number of players in the matching system! To pair everyone evenly you were chosen to sit out. " + \
             "If you would like to be added to the next round of matching, just text this number again.");
             # Sends message to the alone user saying they were chosen to sit out
@@ -128,5 +130,7 @@ class matcherTimer():
             return "NO PAIRING";
 
     def warnActiveUsers(self):
-        # TODO: Make this do stuff
+        for iterUser in self.activeUsers: # This should actually only send one message, since "too few" means <= 1 user
+            sendSMS(iterUser, "Hey {}-- this round will be ending in {}. After that, you will be disconnected ".format(iterUser, self.getTimeLeft()) + \
+                            "from your match and this phone number will go back to registration mode.");
         return;
