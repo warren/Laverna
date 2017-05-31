@@ -22,13 +22,15 @@ def sms_reply():
     resp = MessagingResponse(); # Start our TwiML response
 
     fromNumber = request.values.get("From", None);
+    fromMessage = request.values.get("Body", None);
 
     if fromNumber in mainLottery.getActiveUsers():
-        fromMessage = request.values.get("Body", None);
         sendSMS(mainLottery.getUserPairing(fromNumber), fromMessage);
+    elif fromNumber in mainLottery.getWaitingUsers() and fromMessage == "REMOVE":
+        mainLottery.removeWaitingUser(fromNumber);
+        msg = resp.message("You have been successfully removed from the waiting queue for the next round. Rejoin at any time by texting this number again.");
     elif fromNumber in mainLottery.getWaitingUsers():
-        msg = resp.message("Hey again {}-- you're currently registered for the next round, which will begin in {}.".format(fromNumber, mainLottery.getTimeLeft()));
-        # TODO: Implement a way for users to deadd themselves from the queue
+        msg = resp.message("Hey again {}-- you're currently registered for the next round, which will begin in {}. You can remove yourself from the round by texting \"REMOVE\" to this number.".format(fromNumber, mainLottery.getTimeLeft()));
     else:
         mainLottery.addWaitingUser(fromNumber);
         msg = resp.message("Thanks for the text, {}! You're now in the queue for the next round, which will begin in {}.".format(fromNumber, mainLottery.getTimeLeft()));
