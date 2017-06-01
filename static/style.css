@@ -1,4 +1,12 @@
 body {
-  background: #ff0000; /* red */
-  color: #fff; /* white */
+  background: #5c6582; /* blue-gray */
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  font-family: 'Courier New';
+  margin-top: 50px;
+  text-shadow: 3px 3px gray;
+  font-size: 300%;
 }

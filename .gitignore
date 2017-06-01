@@ -1,3 +1,4 @@
 # Ignore the tokens file
 backend/tokens_DONOTPUSH.txt
 *.pyc
+node_modules
