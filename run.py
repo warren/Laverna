@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect;
 from twilio.twiml.messaging_response import MessagingResponse;
+from flask.ext.socketio import SocketIO, emit;
 
 import sys;
 sys.path.insert(0, "backend/"); # Allows importing from backend directory
@@ -7,6 +8,8 @@ from matcherTimer import *;
 from twilioSMS import *;
 
 app = Flask(__name__);
+#app.config["SECRET KEY"] = "Secret!"; # From the tutorial- what does this do?
+socketio = SocketIO(app);
 
 @app.route("/")
 def index():
@@ -38,6 +41,12 @@ def sms_reply():
     return str(resp);
 
 
+@socketio.on('joined', namespace='/join')
+def joined(message):
+    emit("my response", {"data": "got it!"});
+    print("A user just accessed the site");
+
 if __name__ == "__main__":
     mainLottery = matcherTimer();
-    app.run(debug=True, use_reloader=False, host="0.0.0.0");
+    #app.run(debug=True, use_reloader=False, host="0.0.0.0");
+    socketio.run(app);
