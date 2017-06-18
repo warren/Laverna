@@ -43,8 +43,9 @@ def sms_reply():
 
 @socketio.on('joined', namespace='/join')
 def joined(message):
-    emit("my response", {"data": "got it!"});
+    emit("myevent", {"msg": "got it!"});
     print("A user just accessed the site");
+    # TODO: Organize events like these into a separate file
 
 if __name__ == "__main__":
     mainLottery = matcherTimer();
