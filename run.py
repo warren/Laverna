@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect;
+from flask import Flask, render_template, request;
 from twilio.twiml.messaging_response import MessagingResponse;
 from flask.ext.socketio import SocketIO, emit;
 
@@ -8,19 +8,17 @@ from matcherTimer import *;
 from twilioSMS import *;
 
 app = Flask(__name__);
-#app.config["SECRET KEY"] = "Secret!"; # From the tutorial- what does this do?
 socketio = SocketIO(app);
 
 @app.route("/")
 def index():
     return render_template("index.html");
-    # TODO: Start adding web UI
 
 @app.route("/about")
 def about():
     return render_template("about.html");
 
-@app.route("/sms", methods=['GET', 'POST'])
+@app.route("/sms", methods=["GET", "POST"])
 def sms_reply():
     resp = MessagingResponse(); # Start our TwiML response
 
@@ -41,7 +39,7 @@ def sms_reply():
     return str(resp);
 
 
-@socketio.on('joined', namespace='/join')
+@socketio.on("joined", namespace="/join")
 def joined(message):
     emit("myevent", {"msg": "got it!"});
     print("A user just accessed the site");
