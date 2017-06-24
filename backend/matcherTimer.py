@@ -71,8 +71,7 @@ class matcherTimer():
     def pairUsers(self):
         if self.getNumberOfWaitingUsers() <= 1: # If there aren't enough waitingUsers
             print("There were too few waiting users to start. Printing list of waitingUsers below:");
-            print(self.getWaitingUsers);
-            # TODO: Fix this debug message work, right now it just points to memory address with list
+            print(self.getWaitingUsers());
 
             for iterUser in self.waitingUsers: # This should actually only send one message, since "too few" means <= 1 user
                 sendSMS(iterUser, "Hey {}. Sorry, but there were too few players in the matching system ".format(iterUser) + \

@@ -7,26 +7,7 @@
     <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 
-    <!-- Set up sockets -->
-    <script type="text/javascript" charset="utf-8">
-    var socket;
-    $(document).ready(function()
-    {
-        socket = io.connect("http://" + document.domain + ":" + location.port + "/join");
-        socket.on("connect", function()
-        {
-            socket.emit("joined", {});
-            console.log("joined!");
-        });
-
-        socket.on("myevent", function(data)
-        {
-            console.log(data);
-        });
-    });
-    </script>
-
-    <!-- Import main.js, which doesn't do anything yet -->
+    <!-- Import main.js, which contains our sockets -->
     <script src="../static/main.js"> </script>
 </head>
 

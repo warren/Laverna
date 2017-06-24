@@ -20,30 +20,34 @@ def about():
 
 @app.route("/sms", methods=["GET", "POST"])
 def sms_reply():
+    # TODO...?: Allow users to send pictures
     resp = MessagingResponse(); # Start our TwiML response
 
-    fromNumber = request.values.get("From", None);
-    fromMessage = request.values.get("Body", None);
+    fromNumber = request.values.get("From", None); # This is our sender's phone number
+    fromMessage = request.values.get("Body", None); # This is the message our sender sent
 
     if fromNumber in mainLottery.getActiveUsers():
         sendSMS(mainLottery.getUserPairing(fromNumber), fromMessage);
     elif fromNumber in mainLottery.getWaitingUsers() and fromMessage == "REMOVE":
         mainLottery.removeWaitingUser(fromNumber);
         msg = resp.message("You have been successfully removed from the waiting queue for the next round. Rejoin at any time by texting this number again.");
+        socketio.emit("removeUser", {});
     elif fromNumber in mainLottery.getWaitingUsers():
         msg = resp.message("Hey again {}-- you're currently registered for the next round, which will begin in {}. You can remove yourself from the round by texting \"REMOVE\" to this number.".format(fromNumber, mainLottery.getTimeLeft()));
     else:
         mainLottery.addWaitingUser(fromNumber);
         msg = resp.message("Thanks for the text, {}! You're now in the queue for the next round, which will begin in {}.".format(fromNumber, mainLottery.getTimeLeft()));
+        socketio.emit("addUser", {});
 
     return str(resp);
 
 
-@socketio.on("joined", namespace="/join")
+@socketio.on("joined")
 def joined(message):
-    emit("myevent", {"msg": "got it!"});
-    print("A user just accessed the site");
+    print("A user just accessed the site.");
+    socketio.emit("setupUsers", {"numUsers": mainLottery.getNumberOfWaitingUsers()});
     # TODO: Organize events like these into a separate file
+    # TODO: Emit event that sets up current number of people in the queue
 
 if __name__ == "__main__":
     mainLottery = matcherTimer();
