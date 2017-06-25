@@ -1,6 +1,7 @@
-import time, random;
+import time, random, requests;
 from threading import Timer;
 from twilioSMS import *;
+from flask.ext.socketio import SocketIO, emit;
 
 TIMER_LENGTH = 30.0; # Time is measured in seconds
 WARNING_TIMER_LENGTH = 25.0;
@@ -23,6 +24,7 @@ class matcherTimer():
     def resetTimer(self):
         self.timer = Timer(TIMER_LENGTH, self.pairUsers); # Sets start time to current time
         print("Matcher timer was just reset to length {}.".format(TIMER_LENGTH));
+        requests.get("http://127.0.0.1:5000/tallyreset"); # Sends internal GET request that triggers the resetTallies socket emit. Hacky, but it seems necessary because flask_socketio won't allow importing SocketIO objects across modules
         self.startTime = time.time();
         self.timer.start();
         return;

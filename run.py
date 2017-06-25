@@ -41,6 +41,11 @@ def sms_reply():
 
     return str(resp);
 
+@app.route("/tallyreset")
+def tallyreset():
+    socketio.emit("resetTallies");
+    return;
+
 
 @socketio.on("joined")
 def joined(message):

@@ -31,7 +31,7 @@ $(document).ready(function()
 
     socket.on("resetTallies", function()
     {
-        console.log("Remove all tallies from display here!");
+        console.log("Tallies reset!");
         $("#tallyIcons").empty();
     });
 });
