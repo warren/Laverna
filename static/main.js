@@ -7,27 +7,41 @@ $(document).ready(function()
         console.log("A user just accessed the site.");
     });
 
-    socket.on("addUser", function()
+    socket.on("addTally", function()
     {
-        console.log("Add user here!");
-        // TODO: Call a method that displays one more user
+        console.log("Tally added!");
+        addUser();
     });
 
-    socket.on("removeUser", function()
+    socket.on("removeTally", function()
     {
-        console.log("Remove user here!");
-        // TODO: Call a method that displays one fewer user
+        console.log("Tally removed!");
+        $("i:last-child", "#tallyIcons").remove();
+        // Gets the last i element of tallyIcons and removes it
     });
 
-    socket.on("setupUsers", function(data)
+    socket.on("setupTallies", function(data)
     {
-        console.log(data);
-        // TODO: Call a method that displays the current number of users in the queue
+        console.log("Tallies set up!");
+        for(i=0; i<data.numUsers; i++)
+        {
+            addUser();
+        };
     });
 
-    socket.on("resetUsers", function()
+    socket.on("resetTallies", function()
     {
-        console.log("Remove all users from display here!");
-        // TODO: Call a method that removes all users from display
+        console.log("Remove all tallies from display here!");
+        $("#tallyIcons").empty();
     });
 });
+
+function addUser()
+{
+    $("#tallyIcons").append('<i class="fa fa-user"></i>');
+    // TODO: For flavor, make this append a random icon.
+    // The icon should be synced across users, so probably do it this way:
+    // Initialize array of fa-icons in run.py or separate file.
+    // In the addUser emit, pass a random icon as a param
+    //
+}

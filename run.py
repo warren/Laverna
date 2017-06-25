@@ -31,13 +31,13 @@ def sms_reply():
     elif fromNumber in mainLottery.getWaitingUsers() and fromMessage == "REMOVE":
         mainLottery.removeWaitingUser(fromNumber);
         msg = resp.message("You have been successfully removed from the waiting queue for the next round. Rejoin at any time by texting this number again.");
-        socketio.emit("removeUser", {});
+        socketio.emit("removeTally", {});
     elif fromNumber in mainLottery.getWaitingUsers():
         msg = resp.message("Hey again {}-- you're currently registered for the next round, which will begin in {}. You can remove yourself from the round by texting \"REMOVE\" to this number.".format(fromNumber, mainLottery.getTimeLeft()));
     else:
         mainLottery.addWaitingUser(fromNumber);
         msg = resp.message("Thanks for the text, {}! You're now in the queue for the next round, which will begin in {}.".format(fromNumber, mainLottery.getTimeLeft()));
-        socketio.emit("addUser", {});
+        socketio.emit("addTally", {});
 
     return str(resp);
 
@@ -45,7 +45,7 @@ def sms_reply():
 @socketio.on("joined")
 def joined(message):
     print("A user just accessed the site.");
-    socketio.emit("setupUsers", {"numUsers": mainLottery.getNumberOfWaitingUsers()});
+    socketio.emit("setupTallies", {"numUsers": mainLottery.getNumberOfWaitingUsers()});
     # TODO: Organize events like these into a separate file
     # TODO: Emit event that sets up current number of people in the queue
 
