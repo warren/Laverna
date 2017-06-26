@@ -90,7 +90,7 @@ class matcherTimer():
             # Sends message to the alone user saying they were chosen to sit out
 
         # We reach this point in the code if we have a good number of waitingUsers to start a round.
-        for finishedUser in activeUsers:
+        for finishedUser in self.activeUsers:
             sendSMS(finishedUser, "Hey {}-- thanks for playing! The round is now over. To play again, text this number again!".format(finishedUser));
 
         random.shuffle(self.waitingUsers); # Scrambles the waitingUsers in the list

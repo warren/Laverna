@@ -7,41 +7,40 @@ $(document).ready(function()
         console.log("A user just accessed the site.");
     });
 
-    socket.on("addTally", function()
+    socket.on("addTally", function(data)
     {
+        addUser(data.iconName);
+        // data.icon is a string containing the name of the chosen fa-icon
         console.log("Tally added!");
-        addUser();
     });
 
-    socket.on("removeTally", function()
+    socket.on("removeTally", function(data)
     {
-        console.log("Tally removed!");
-        $("i:last-child", "#tallyIcons").remove();
-        // Gets the last i element of tallyIcons and removes it
+        $("i:." + data.iconName, "#tallyIcons").remove();
+        // Removes all i elements of tallyIcons that have the class name iconName
+        console.log("Tally with id " + data.iconName + "removed!");
     });
 
     socket.on("setupTallies", function(data)
     {
-        console.log("Tallies set up!");
-        for(i=0; i<data.numUsers; i++)
+        iconList = data.iconList;
+        for(i=0; i<iconList.length; i++)
         {
-            addUser();
+            addUser(iconList[i]);
         };
+        console.log("Tallies set up!");
     });
 
     socket.on("resetTallies", function()
     {
-        console.log("Tallies reset!");
         $("#tallyIcons").empty();
+        console.log("Tallies reset!");
     });
 });
 
-function addUser()
+function addUser(iconName)
 {
-    $("#tallyIcons").append('<i class="fa fa-user"></i>');
-    // TODO: For flavor, make this append a random icon.
-    // The icon should be synced across users, so probably do it this way:
-    // Initialize array of fa-icons in run.py or separate file.
-    // In the addUser emit, pass a random icon as a param
-    //
+    $("#tallyIcons").append('<i class="fa ' + iconName + '"></i>');
+    // TODO: Make sure there are no duplicate user icons bc it could
+    // cause removeTally to remove 2 icons instead of 1
 }
