@@ -1,12 +1,56 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:700');
+
 body {
-  background: #5c6582; /* blue-gray */
+    background: #5c6582; /* blue-gray */
+    font-family: 'Roboto', sans-serif;
 }
 
-h1 {
-  color: white;
-  text-align: center;
-  font-family: 'Courier New';
-  margin-top: 50px;
-  text-shadow: 3px 3px gray;
-  font-size: 300%;
+#header {
+    color: white;
+    text-align: center;
+    margin-top: 3em;
+    font-size: 300%;
+    letter-spacing: 0.05em;
+    position: relative;
+
+    animation: header-fadein 3s;
+    /*animation-timing-function: TODO*/
+}
+
+#header-subtext {
+    color: white;
+    text-align: center;
+    font-size: 100%;
+    letter-spacing: 0.05em;
+    opacity: 0;
+
+    animation: subtext-fadein 3s;
+    animation-delay: 1s;
+    animation-fill-mode: forwards;
+}
+
+#tallyIcons {
+    color: white;
+    font-size: 2em;
+    text-align: center;
+    opacity: 0;
+
+    animation: tallyicons-fadein 3s;
+    animation-delay: 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes header-fadein {
+    from { opacity: 0; transform: translateY(-50%);}
+    to   { opacity: 1; transform: translateY(0%);}
+}
+
+@keyframes subtext-fadein {
+    from { opacity: 0; transform: translateY(-50%);}
+    to   { opacity: 1; transform: translateY(0%);}
+}
+
+@keyframes tallyicons-fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }

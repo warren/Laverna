@@ -26,21 +26,29 @@ def sms_reply():
     fromNumber = request.values.get("From", None); # This is our sender's phone number
     fromMessage = request.values.get("Body", None); # This is the message our sender sent
 
+    # If the user is playing in the round:
     if fromNumber in mainLottery.getActiveUsers():
         sendSMS(mainLottery.getUserPairing(fromNumber), fromMessage);
+
+    # If the user is removing themselves from the queue:
     elif fromNumber in mainLottery.getWaitingUsers() and fromMessage == "REMOVE":
         mainLottery.removeWaitingUser(fromNumber);
         msg = resp.message("You have been successfully removed from the waiting queue for the next round. Rejoin at any time by texting this number again.");
         iconName = tallyIconDict.pop(fromNumber);
         # TODO: Fix potential valueError bug when unqueued user texts "REMOVE"
         socketio.emit("removeTally", {"iconName": iconName});
+
+    # If the user is registered for the next round and is texting again:
     elif fromNumber in mainLottery.getWaitingUsers():
         msg = resp.message("Hey again {}-- you're currently registered for the next round, which will begin in {}. You can remove yourself from the round by texting \"REMOVE\" to this number.".format(fromNumber, mainLottery.getTimeLeft()));
+
+    # If the user is has not been added to the queue yet:
     else:
         mainLottery.addWaitingUser(fromNumber);
         msg = resp.message("Thanks for the text, {}! You're now in the queue for the next round, which will begin in {}.".format(fromNumber, mainLottery.getTimeLeft()));
-        # TODO: Address user by their icon instead of their phone number
         iconName = random.choice(open("iconlist.txt").readlines());
+        while iconName in tallyIconDict: # If we have picked an icon that is already in use...
+            iconName = random.choice(open("iconlist.txt").readlines()); # ... pick another and check again.
         tallyIconDict[fromNumber] = iconName;
         socketio.emit("addTally", {"iconName": iconName});
 

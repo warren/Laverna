@@ -10,7 +10,7 @@ $(document).ready(function()
     socket.on("addTally", function(data)
     {
         addUser(data.iconName);
-        // data.icon is a string containing the name of the chosen fa-icon
+        // data.iconName is a string containing the name of the chosen fa-icon
         console.log("Tally added!");
     });
 
@@ -41,6 +41,4 @@ $(document).ready(function()
 function addUser(iconName)
 {
     $("#tallyIcons").append('<i class="fa ' + iconName + '"></i>');
-    // TODO: Make sure there are no duplicate user icons bc it could
-    // cause removeTally to remove 2 icons instead of 1
 }
