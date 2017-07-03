@@ -1,17 +1,22 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
 
 body {
     background: #5c6582; /* blue-gray */
     font-family: 'Roboto', sans-serif;
+    font-weight: 400;
 }
 
 #header {
     color: white;
     text-align: center;
-    margin-top: 3em;
-    font-size: 300%;
-    letter-spacing: 0.05em;
+    font-size: 400%;
+    letter-spacing: 0.025em;
     position: relative;
+    padding: 0.025em;
+    margin: 0;
+    margin-top: 1em;
+    font-weight: 700;
+
 
     animation: header-fadein 3s;
     /*animation-timing-function: TODO*/
@@ -20,11 +25,15 @@ body {
 #header-subtext {
     color: white;
     text-align: center;
-    font-size: 100%;
-    letter-spacing: 0.05em;
+    font-size: 150%;
+    letter-spacing: 0.04em;
     opacity: 0;
+    position: relative;
+    padding: 0.025em;
+    margin: 0;
+    font-weight: inherit;
 
-    animation: subtext-fadein 3s;
+    animation: subtext-fadein 2s;
     animation-delay: 1s;
     animation-fill-mode: forwards;
 }
@@ -34,9 +43,10 @@ body {
     font-size: 2em;
     text-align: center;
     opacity: 0;
+    margin-top: 3em;
 
     animation: tallyicons-fadein 3s;
-    animation-delay: 2s;
+    animation-delay: 3s;
     animation-fill-mode: forwards;
 }
 
@@ -46,8 +56,8 @@ body {
 }
 
 @keyframes subtext-fadein {
-    from { opacity: 0; transform: translateY(-50%);}
-    to   { opacity: 1; transform: translateY(0%);}
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 @keyframes tallyicons-fadein {
