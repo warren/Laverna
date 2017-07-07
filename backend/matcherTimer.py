@@ -29,11 +29,11 @@ class matcherTimer():
         self.timer.start();
         return;
 
-    def getTimerUptime(self):
-        return time.time() - self.startTime; # Returns in seconds
-
     def getTimeLeft(self):
-        secondsLeft = TIMER_LENGTH - self.getTimerUptime();
+        return TIMER_LENGTH - (time.time() - self.startTime); # Returns in seconds
+
+    def getTimeLeftMessage(self):
+        secondsLeft = self.getTimeLeft();
         hours, remainder = divmod(secondsLeft, 3600);
         minutes, seconds = divmod(remainder, 60);
         returnMessage = "";
@@ -132,6 +132,6 @@ class matcherTimer():
 
     def warnActiveUsers(self):
         for iterUser in self.activeUsers: # This should actually only send one message, since "too few" means <= 1 user
-            sendSMS(iterUser, "Hey {}-- this round will be ending in {}. After that, you will be disconnected ".format(iterUser, self.getTimeLeft()) + \
+            sendSMS(iterUser, "Hey {}-- this round will be ending in {}. After that, you will be disconnected ".format(iterUser, self.getTimeLeftMessage()) + \
                             "from your match and this phone number will go back to registration mode.");
         return;

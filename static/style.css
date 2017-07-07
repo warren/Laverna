@@ -5,7 +5,21 @@ body {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
 }
+/*
+#landing-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
 
+    color: white;
+    text-align: center;
+    font-size: 150%;
+    letter-spacing: 0.025em;
+    position: relative;
+    padding: 0.025em;
+    margin: 0;
+    margin-top: 1em;
+}
+*/
 #header {
     color: white;
     text-align: center;
@@ -34,7 +48,39 @@ body {
     font-weight: inherit;
 
     animation: subtext-fadein 2s;
-    animation-delay: 1s;
+    animation-delay: 2.5s;
+    animation-fill-mode: forwards;
+}
+
+#header-sub-subtext {
+    color: white;
+    text-align: center;
+    font-size: 150%;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    position: relative;
+    padding: 0.025em;
+    margin: 0;
+    font-weight: inherit;
+
+    animation: subtext-fadein 2s;
+    animation-delay: 3.5s;
+    animation-fill-mode: forwards;
+}
+
+#header-sub-sub-subtext {
+    color: white;
+    text-align: center;
+    font-size: 150%;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    position: relative;
+    padding: 0.025em;
+    margin: 0;
+    font-weight: inherit;
+
+    animation: subtext-fadein 2s;
+    animation-delay: 5.5s;
     animation-fill-mode: forwards;
 }
 

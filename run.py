@@ -63,12 +63,12 @@ def tallyreset():
 @socketio.on("joined")
 def joined(message):
     print("A user just accessed the site.");
+    iconNamesToAdd = [];
     if bool(tallyIconDict): # If our dictionary is not empty
-        iconNamesToAdd = [];
         for key, value in tallyIconDict.items():
             iconNamesToAdd.append(value); # Append all icon names
 
-        socketio.emit("setupTallies", {"iconList": iconNamesToAdd});
+    socketio.emit("setup", {"iconList": iconNamesToAdd, "seconds": mainLottery.getTimeLeft(), "magicNumber": "+11234567890"});
 
 
 if __name__ == "__main__":
