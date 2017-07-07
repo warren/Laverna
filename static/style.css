@@ -36,7 +36,7 @@ body {
     /*animation-timing-function: TODO*/
 }
 
-#header-subtext {
+#phone-number-subtext {
     color: white;
     text-align: center;
     font-size: 150%;
@@ -52,7 +52,7 @@ body {
     animation-fill-mode: forwards;
 }
 
-#header-sub-subtext {
+#timer-subtext {
     color: white;
     text-align: center;
     font-size: 150%;
@@ -68,7 +68,7 @@ body {
     animation-fill-mode: forwards;
 }
 
-#header-sub-sub-subtext {
+#user-count-subtext {
     color: white;
     text-align: center;
     font-size: 150%;
