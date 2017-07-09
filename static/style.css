@@ -84,6 +84,22 @@ body {
     animation-fill-mode: forwards;
 }
 
+#what-is-this {
+    color: white;
+    text-align: center;
+    font-size: 50%;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    position: relative;
+    padding: 0.025em;
+    margin: 0;
+    font-weight: inherit;
+
+    animation: subtext-fadein 2s;
+    animation-delay: 7.5s;
+    animation-fill-mode: forwards;
+}
+
 #tallyIcons {
     color: white;
     font-size: 2em;
