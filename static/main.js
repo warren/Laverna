@@ -27,7 +27,7 @@ $(document).ready(function()
     {
         setupTallies(data.iconList);
         setupTimer(data.seconds);
-        console.log("Time left is " + data.seconds);
+        console.log("Time left is " + Math.floor(data.seconds));
         setupPhoneNumber(data.magicNumber);
         console.log("Magic number is " + data.magicNumber);
 
@@ -54,12 +54,24 @@ function setupTallies(iconList)
 
 function setupTimer(secondsLeft)
 {
-    // TODO: Set up initial timer
+    var nowDate = new Date().getTime();
+    // This is the # of milliseconds since Jan 1 1970 00:00:00
+    var countdownDate = new Date(nowDate + (secondsLeft * 1000)).getTime();
+    // This constructs a countdown date ahead of our current time by (secondsLeft * 100) milliseconds
+
     var x = setInterval(function()
     {
-        secondsLeft = secondsLeft - 1;
-        $("#timer-subtext").text("and the next round will begin in " + secondsLeft + " seconds.");
-    })
+        var nowDate = new Date().getTime();
+        var distance = countdownDate - nowDate;
+
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        $("#timer-subtext").text("and the next round will begin in " + hours + " hours, " + minutes + " minutes, and " + seconds + " seconds.");
+    });
+    // TODO: Make this timer reset itself with secondsLeft when it reaches 0
 }
 
 function setupPhoneNumber(magicNumber)
