@@ -68,7 +68,7 @@ def joined(message):
         for key, value in tallyIconDict.items():
             iconNamesToAdd.append(value); # Append all icon names
 
-    socketio.emit("setup", {"iconList": iconNamesToAdd, "seconds": mainLottery.getTimeLeft(), "magicNumber": "+11234567890"});
+    socketio.emit("setup", {"iconList": iconNamesToAdd, "seconds": mainLottery.getTimeLeft(), "magicNumber": "(123) 456-7890"});
 
 
 if __name__ == "__main__":

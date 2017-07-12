@@ -5,6 +5,21 @@ body {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
 }
+
+video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+    background: url('http://techslides.com/demos/sample-videos/small.webm') no-repeat;
+    background-size: cover;
+}
+
 /*
 #landing-text {
     font-family: 'Roboto', sans-serif;
@@ -20,6 +35,7 @@ body {
     margin-top: 1em;
 }
 */
+
 #header {
     color: white;
     text-align: center;
