@@ -19,3 +19,6 @@ def sendSMS(recipientNumber, message):
         body = message);
     print(message.sid);
     return;
+
+def getMagicNumber():
+    return tokenDict["twilio_sender_number"];

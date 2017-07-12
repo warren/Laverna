@@ -30,7 +30,6 @@ $(document).ready(function()
         console.log("Time left is " + Math.floor(data.seconds));
         setupPhoneNumber(data.magicNumber);
         console.log("Magic number is " + data.magicNumber);
-
     });
 
     socket.on("resetTallies", function()
@@ -76,5 +75,19 @@ function setupTimer(secondsLeft)
 
 function setupPhoneNumber(magicNumber)
 {
+    magicNumber = magicNumber.replace(/[^\d]/g, "");
+    // Removes all characters that aren't 0-9 from the string
+    magicNumber = magicNumber.substr(1);
+    // Removes the first character, which will be the 1 from the US dialing code
+
+    if (magicNumber.length == 10)
+    {
+        magicNumber = magicNumber.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+        // Formats the 10-digit number into the form (xxx) yyy-zzzz
+    } else
+    {
+        console.log("ERROR: Magic number could not be formatted. Check your tokens file.");
+    }
+
     $("#phone-number-subtext").text("The magic number is " + magicNumber + ",");
 }
