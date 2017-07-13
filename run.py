@@ -45,7 +45,7 @@ def sms_reply():
     # If the user is has not been added to the queue yet:
     else:
         mainLottery.addWaitingUser(fromNumber);
-        msg = resp.message("Thanks for the text, {}! You're now in the queue for the next round, which will begin in {}.".format(fromNumber, mainLottery.getTimeLeft()));
+        msg = resp.message("Thanks for the text, {}! You're now in the queue for the next round, which will begin in {} seconds.".format(fromNumber, mainLottery.getTimeLeft()));
         iconName = random.choice(open("iconlist.txt").readlines());
         while iconName in tallyIconDict: # If we have picked an icon that is already in use...
             iconName = random.choice(open("iconlist.txt").readlines()); # ... pick another and check again.

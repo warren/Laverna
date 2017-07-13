@@ -1,6 +1,8 @@
 $(document).ready(function()
 {
     var socket = io.connect("http://" + document.domain + ":" + location.port);
+    var usersQueued = 0;
+
     socket.on("connect", function()
     {
         socket.emit("joined", {});
@@ -11,16 +13,32 @@ $(document).ready(function()
     {
         $("#tallyIcons").append('<i class="fa ' + data.iconName + '"></i>');
         // data.iconName is a string containing the name of the chosen fa-icon
-        console.log("Tally added!");
-        // TODO: Make this update #user-count-subtext
+        usersQueued = usersQueued + 1;
+
+        console.log("Tally with id " + data.iconName + "added. There are now " + usersQueued + " users queued.");
+
+        if (usersQueued == 1)
+        {
+            $("#user-count-subtext").text("There is currently 1 user in the queue.");
+        } else {
+            $("#user-count-subtext").text("There are currently " + usersQueued + " users in the queue.");
+        }
     });
 
     socket.on("removeTally", function(data)
     {
         $("i:." + data.iconName, "#tallyIcons").remove();
         // Removes all i elements of tallyIcons that have the class name iconName
-        console.log("Tally with id " + data.iconName + "removed!");
-        // TODO: Make this update #user-count-subtext
+        usersQueued = usersQueued - 1;
+
+        console.log("Tally with id " + data.iconName + "removed. There are now " + usersQueued + " users queued.");
+
+        if (usersQueued == 1)
+        {
+            $("#user-count-subtext").text("There is currently 1 user in the queue.");
+        } else {
+            $("#user-count-subtext").text("There are currently " + usersQueued + " users in the queue.");
+        }
     });
 
     socket.on("setup", function(data)
@@ -35,19 +53,28 @@ $(document).ready(function()
     socket.on("resetTallies", function()
     {
         $("#tallyIcons").empty();
+        usersQueued = 0;
+        $("#user-count-subtext").text("There are currently 0 users in the queue.");
         console.log("Tallies reset!");
     });
 });
 
 function setupTallies(iconList)
 {
-    for(i=0; i<iconList.length; i++)
+    usersQueued = iconList.length;
+
+    for(i=0; i<usersQueued; i++)
     {
         $("#tallyIcons").append('<i class="fa ' + iconList[i] + '"></i>');
     };
-    $("#user-count-subtext").text("There are currently " + iconList.length + " users in the queue.");
-    // TODO: Make this write the correct string: "no users"/"user"/"users"
-    // Maybe in helper method
+
+    if (usersQueued == 1)
+    {
+        $("#user-count-subtext").text("There is currently 1 user in the queue.");
+    } else {
+        $("#user-count-subtext").text("There are currently " + usersQueued + " users in the queue.");
+    }
+
     console.log("Tallies set up!");
 }
 
