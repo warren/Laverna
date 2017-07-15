@@ -85,10 +85,11 @@ function setupTimer(secondsLeft)
     var countdownDate = new Date(nowDate + (secondsLeft * 1000)).getTime();
     // This constructs a countdown date ahead of our current time by (secondsLeft * 100) milliseconds
 
-    var x = setInterval(function()
+    var countdownInterval = setInterval(function()
     {
         var nowDate = new Date().getTime();
         var distance = countdownDate - nowDate;
+        console.log("distance is " + distance);
 
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -96,8 +97,13 @@ function setupTimer(secondsLeft)
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         $("#timer-subtext").text("and the next round will begin in " + hours + " hours, " + minutes + " minutes, and " + seconds + " seconds.");
-    });
-    // TODO: Make this timer reset itself with secondsLeft when it reaches 0
+        if (distance <= 1000)
+        {
+            clearInterval(countdownInterval);
+            var socket = io.connect("http://" + document.domain + ":" + location.port);
+            socket.emit("joined", {});
+        }
+    }, 1000);
 }
 
 function setupPhoneNumber(magicNumber)

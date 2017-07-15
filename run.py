@@ -62,7 +62,7 @@ def tallyreset():
 
 @socketio.on("joined")
 def joined(message):
-    print("A user just accessed the site.");
+    print("Socket 'joined' was just called.");
     iconNamesToAdd = [];
     if bool(tallyIconDict): # If our dictionary is not empty
         for key, value in tallyIconDict.items():
