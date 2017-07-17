@@ -19,9 +19,11 @@
 
     <!-- Import CSS -->
     <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/static/reset.css"> <!-- CSS reset -->
+    <link rel="stylesheet" href="/static/slideinstyle.css"> <!-- Resource style -->
 
     <!-- Import jQuery and SocketIO -->
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 
     <!-- Import main.js, which contains our sockets -->
@@ -53,6 +55,26 @@
 
     <!-- This is where the number of users is tallied -->
     <div id="tallyIcons"></div>
+
+    <main class="cd-main-content">
+		<h1>Slide In Panel</h1>
+		<a href="#0" class="cd-btn">Fire Panel</a>
+		<!--  content here -->
+	</main>
+
+	<div class="cd-panel from-right">
+		<header class="cd-panel-header">
+			<h1>Title Goes Here</h1>
+			<a href="#0" class="cd-panel-close">Close</a>
+		</header>
+
+		<div class="cd-panel-container">
+			<div class="cd-panel-content">
+				<p>Lorem ipsum dolor sit amet.</p>
+			</div> <!-- cd-panel-content -->
+		</div> <!-- cd-panel-container -->
+	</div> <!-- cd-panel -->
+
 </body>
 </html>
 

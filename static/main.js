@@ -57,6 +57,19 @@ $(document).ready(function()
         $("#user-count-subtext").text("There are currently 0 users in the queue.");
         console.log("Tallies reset!");
     });
+
+    //open the lateral panel
+    $(".cd-btn").on("click", function(event){
+        event.preventDefault();
+        $('.cd-panel').addClass('is-visible');
+    });
+    //close the lateral panel
+    $('.cd-panel').on('click', function(event){
+        if( $(event.target).is('.cd-panel') || $(event.target).is('.cd-panel-close') ) {
+            $('.cd-panel').removeClass('is-visible');
+            event.preventDefault();
+        }
+    });
 });
 
 function setupTallies(iconList)
