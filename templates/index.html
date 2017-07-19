@@ -19,7 +19,7 @@
 
     <!-- Import CSS -->
     <link rel="stylesheet" href="/static/style.css" />
-    <link rel="stylesheet" href="/static/reset.css"> <!-- CSS reset -->
+    <!--<link rel="stylesheet" href="/static/reset.css">--><!-- CSS reset -->
     <link rel="stylesheet" href="/static/slideinstyle.css"> <!-- Resource style -->
 
     <!-- Import jQuery and SocketIO -->
@@ -37,7 +37,7 @@
 </head>
 
 <video poster="http://techslides.com/demos/sample-videos/small.mp4" id="background-video" autoplay muted loop playsinline>
-    <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
+    <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button -->
     <source src=http://techslides.com/demos/sample-videos/small.webm type=video/webm>
     <source src=http://techslides.com/demos/sample-videos/small.mp4 type=video/mp4>
     <source src=http://techslides.com/demos/sample-videos/small.ogv type=video/ogg>
@@ -50,17 +50,11 @@
         <h3 id="phone-number-subtext">The magic number is (617) 234-9876,</h3>
         <h4 id="timer-subtext">and the next round will begin in 60 seconds.</h4>
         <h5 id="user-count-subtext">There are currently 2 users in the queue.</h5>
-        <h6 id="what-is-this">What is this?</h6>
+        <a href="#0" class="cd-btn">What is this?</a>
     </div>
 
     <!-- This is where the number of users is tallied -->
     <div id="tallyIcons"></div>
-
-    <main class="cd-main-content">
-		<h1>Slide In Panel</h1>
-		<a href="#0" class="cd-btn">Fire Panel</a>
-		<!--  content here -->
-	</main>
 
 	<div class="cd-panel from-right">
 		<header class="cd-panel-header">

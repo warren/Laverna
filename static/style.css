@@ -4,6 +4,7 @@ body {
     background: #5c6582; /* blue-gray */
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
+    text-align: center;
 }
 
 video {

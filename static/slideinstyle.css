@@ -1,4 +1,4 @@
-/* -------------------------------- 
+/* --------------------------------
 
 Primary style
 
@@ -21,13 +21,14 @@ body {
 }
 
 a {
-  color: #89ba2c;
+  color: #9bf97f;
   text-decoration: none;
+  text-align: center;
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
-Main components 
+Main components
 
 -------------------------------- */
 html, body {
@@ -192,9 +193,11 @@ html, body {
   transition: top 0.3s 0s;
 }
 .cd-panel-header h1 {
-  font-weight: bold;
-  color: #89ba2c;
-  padding-left: 5%;
+    margin: 0;
+    font: inherit;
+    font-weight: bold;
+    color: #89ba2c;
+    padding-left: 5%;
 }
 .from-right .cd-panel-header, .from-left .cd-panel-header {
   top: -50px;
