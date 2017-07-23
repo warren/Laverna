@@ -21,7 +21,6 @@ body {
 }
 
 a {
-  color: #9bf97f;
   text-decoration: none;
   text-align: center;
 }
@@ -295,7 +294,7 @@ html, body {
   width: 90%;
   height: 100%;
   top: 0;
-  background: #dbe2e9;
+  background: #fff;
   z-index: 1;
   -webkit-transition-property: -webkit-transform;
   -moz-transition-property: -moz-transform;
@@ -322,6 +321,14 @@ html, body {
   -ms-transform: translate3d(-100%, 0, 0);
   -o-transform: translate3d(-100%, 0, 0);
   transform: translate3d(-100%, 0, 0);
+}
+.from-bottom .cd-panel-container {
+  bottom: 0;
+  -webkit-transform: translate3d(0, 100%, 0);
+  -moz-transform: translate3d(0, 100%, 0);
+  -ms-transform: translate3d(0, 100%, 0);
+  -o-transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 100%, 0);
 }
 .is-visible .cd-panel-container {
   -webkit-transform: translate3d(0, 0, 0);
