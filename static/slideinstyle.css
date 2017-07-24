@@ -184,7 +184,8 @@ html, body {
   width: 90%;
   height: 50px;
   line-height: 50px;
-  background: #616161; /* This is the panel header color */
+  background: rgb(54, 54, 54); /* Fallback for browsers that don't support rgba */
+  background: rgba(54, 54, 54, .7); /* This is the panel header color */
   z-index: 2;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
   -webkit-transition: top 0.3s 0s;
@@ -294,7 +295,8 @@ html, body {
   width: 90%;
   height: 100%;
   top: 0;
-  background: #757575; /* This is the panel container color (should be lighter than panel header) */
+  background: rgb(54, 54, 54); /* Fallback for browsers that don’t support rgba */
+  background: rgba(54, 54, 54, .4); /* This is the panel container color (should be lighter than panel header) */
   z-index: 1;
   -webkit-transition-property: -webkit-transform;
   -moz-transition-property: -moz-transform;
