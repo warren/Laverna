@@ -184,7 +184,7 @@ html, body {
   width: 90%;
   height: 50px;
   line-height: 50px;
-  background: rgba(255, 255, 255, 0.96);
+  background: #616161; /* This is the panel header color */
   z-index: 2;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
   -webkit-transition: top 0.3s 0s;
@@ -195,7 +195,7 @@ html, body {
     margin: 0;
     font: inherit;
     font-weight: bold;
-    color: #89ba2c;
+    color: #89ba2c; /* This is the panel header text color */
     padding-left: 5%;
 }
 .from-right .cd-panel-header, .from-left .cd-panel-header {
@@ -209,7 +209,7 @@ html, body {
 }
 .is-visible .cd-panel-header {
   top: 0;
-  -webkit-transition: top 0.3s 0.3s;
+  -webkit-transition: top 0.3s 0.3s; /* TODO: Maybe remove this. Check again later*/
   -moz-transition: top 0.3s 0.3s;
   transition: top 0.3s 0.3s;
 }
@@ -243,7 +243,7 @@ html, body {
   left: 20px;
   height: 3px;
   width: 20px;
-  background-color: #424f5c;
+  background-color: #fff; /* This is the close icon color */
   /* this fixes a bug where pseudo elements are slighty off position */
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -294,7 +294,7 @@ html, body {
   width: 90%;
   height: 100%;
   top: 0;
-  background: #fff;
+  background: #757575; /* This is the panel container color (should be lighter than panel header) */
   z-index: 1;
   -webkit-transition-property: -webkit-transform;
   -moz-transition-property: -moz-transform;
@@ -365,7 +365,7 @@ html, body {
 .cd-panel-content p {
   font-size: 14px;
   font-size: 0.875rem;
-  color: #424f5c;
+  color: #fff;
   line-height: 1.4;
   margin: 2em 0;
 }
