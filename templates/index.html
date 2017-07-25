@@ -62,6 +62,16 @@
 			<a href="#0" class="cd-panel-close">Close</a>
 		</header>
 
+        <div class="blurry-overlay">
+            <video poster="http://techslides.com/demos/sample-videos/small.mp4" id="background-video" autoplay muted loop playsinline>
+                <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button -->
+                <source src=http://techslides.com/demos/sample-videos/small.webm type=video/webm>
+                <source src=http://techslides.com/demos/sample-videos/small.mp4 type=video/mp4>
+                <source src=http://techslides.com/demos/sample-videos/small.ogv type=video/ogg>
+                <source src=http://techslides.com/demos/sample-videos/small.3gp type=video/3gp>
+            </video>
+        </div>
+
 		<div class="cd-panel-container">
 			<div class="cd-panel-content">
 				<p>Text anything to the magic number to enter the queue.</p>
