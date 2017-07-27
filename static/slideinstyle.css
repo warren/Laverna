@@ -99,7 +99,7 @@ html, body {
     transition: visibility 0s 0s;
 }
 .cd-panel.is-visible::after {
-    background: rgba(0, 0, 0, 0.6);
+    /*background: rgba(0, 0, 0, 0.6); This controls if there is a dark overlay over the whole page */
     -webkit-transition: background 0.3s 0s;
     -moz-transition: background 0.3s 0s;
     transition: background 0.3s 0s;
@@ -185,7 +185,7 @@ html, body {
     height: 50px;
     line-height: 50px;
     background: rgb(54, 54, 54); /* Fallback for browsers that don't support rgba */
-    background: rgba(54, 54, 54, .7); /* This is the panel header color */
+    background: rgba(54, 54, 54, 0.7); /* This is the panel header color */
     z-index: 2;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
     -webkit-transition: top 0.3s 0s;
@@ -216,12 +216,12 @@ html, body {
 }
 @media only screen and (min-width: 768px) {
     .cd-panel-header {
-        width: 70%;
+        width: 35%;
     }
 }
 @media only screen and (min-width: 1170px) {
     .cd-panel-header {
-        width: 50%;
+        width: 25%;
     }
 }
 
@@ -295,8 +295,8 @@ html, body {
     width: 90%;
     height: 100%;
     top: 0;
-    background: rgb(54, 54, 54); /* Fallback for browsers that don’t support rgba */
-    background: rgba(54, 54, 54, .4); /* This is the panel container color (should be lighter than panel header) */
+    background: rgb(22, 22, 22); /* Fallback for browsers that don’t support rgba */
+    background: rgba(22, 22, 22, 0.5); /* This is the panel container color (should be lighter than panel header) */
     z-index: 1;
     -webkit-transition-property: -webkit-transform;
     -moz-transition-property: -moz-transform;
@@ -342,14 +342,15 @@ html, body {
     -moz-transition-delay: 0s;
     transition-delay: 0s;
 }
+
 @media only screen and (min-width: 768px) {
     .cd-panel-container {
-        width: 70%;
+        width: 35%;
     }
 }
 @media only screen and (min-width: 1170px) {
     .cd-panel-container {
-        width: 50%;
+        width: 25%;
     }
 }
 
@@ -364,6 +365,7 @@ html, body {
 .blurry-overlay video {
     opacity: 0.8;
     filter: blur(6px);
+    overflow: hidden;
 }
 
 .cd-panel-content {
