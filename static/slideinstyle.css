@@ -157,6 +157,7 @@ Main components
 .cd-panel-header h1 {
     margin: 0;
     font: inherit;
+    font-size: 130%;
     font-weight: bold;
     color: #89ba2c; /* This is the panel header text color */
     padding-left: 5%;
@@ -296,6 +297,17 @@ Main components
     -moz-transition-delay: 0s;
     transition-delay: 0s;
 }
+.cd-panel-container .about {
+    position: relative;
+    bottom: 3em;
+    font-family: "Droid Sans", sans-serif;
+    color: #fff;
+    width: 100%;
+    padding: 0px 5%;
+    overflow: auto;
+    /* smooth scrolling on touch devices */
+    -webkit-overflow-scrolling: touch;
+}
 
 @media only screen and (min-width: 768px) {
     .cd-panel-container {
@@ -332,7 +344,7 @@ Main components
 }
 
 .cd-panel-content {
-    position: absolute;
+    position: relative;
     font-family: "Droid Sans", sans-serif;
     color: #fff;
     top: 0;
