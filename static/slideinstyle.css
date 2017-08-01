@@ -297,7 +297,7 @@ Main components
     -moz-transition-delay: 0s;
     transition-delay: 0s;
 }
-.cd-panel-container .about {
+.cd-panel-container .about-footer {
     position: relative;
     bottom: 3em;
     font-family: "Droid Sans", sans-serif;

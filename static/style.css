@@ -38,6 +38,15 @@ video {
 }
 */
 
+#loading-cover {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: #fff;
+}
+
 #header {
     color: white;
     text-align: center;
@@ -48,7 +57,6 @@ video {
     margin: 0;
     margin-top: 1em;
     font-weight: 700;
-
 
     animation: header-fadein 3s;
     /*animation-timing-function: TODO*/

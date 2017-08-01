@@ -35,6 +35,8 @@
     <!-- TODO: Add loading screen so that the video can load -->
 </head>
 
+<div id="loading-cover"></div>
+
 <video poster="http://techslides.com/demos/sample-videos/small.mp4" id="background-video" autoplay muted loop playsinline>
     <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button -->
     <source src=http://techslides.com/demos/sample-videos/small.webm type=video/webm>
@@ -79,7 +81,8 @@
                 <p>During this period of time, you are completely anonymous. There is no way for your pair to know who you are unless you tell them.</p>
                 <p>You will be disconnected from your pair after __ minutes.</p>
                 <p>Be yourself!</p>
-            <div class="about">This project is <a href="http://github.com/Warren-Partridge/Laverna">open source</a>!</div>	
+            </div> <!-- cd-panel-content -->
+            <div class="about-footer">This project is <a href="http://github.com/Warren-Partridge/Laverna">open source</a>!</div>
 		</div> <!-- cd-panel-container -->
 	</div> <!-- cd-panel -->
 

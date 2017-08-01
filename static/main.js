@@ -1,3 +1,7 @@
+$(window).on("load", function() {
+    $("#loading-cover").fadeOut(500);
+});
+
 $(document).ready(function()
 {
     var socket = io.connect("http://" + document.domain + ":" + location.port);
