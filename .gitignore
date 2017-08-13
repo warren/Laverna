@@ -1,4 +1,5 @@
-# Ignore the tokens file
+# Ignore the tokens file and unique hashes file
 backend/tokens_DONOTPUSH.txt
+backend/uniquehashes.txt
 *.pyc
 node_modules
