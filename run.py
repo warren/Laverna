@@ -44,6 +44,9 @@ def sms_reply():
 
     # If the user is has not been added to the queue yet:
     else:
+        if checkUniqueUser(fromNumber) == True:
+            print("A unique user just texted the number.");
+            # TODO: Broadcast an event that updates unique user count in sidebar 
         mainLottery.addWaitingUser(fromNumber);
         msg = resp.message("Thanks for the text, {}! You're now in the queue for the next round, which will begin in {} seconds.".format(fromNumber, mainLottery.getTimeLeft()));
         iconName = random.choice(open("iconlist.txt").readlines());

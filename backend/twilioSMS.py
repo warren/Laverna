@@ -1,8 +1,9 @@
 from twilio.rest import Client;
+import re; # Import regex
 
 tokenDict = {}; # Gets Twilio tokens from separate file
-with open("backend/tokens_DONOTPUSH.txt") as tokenfile: # Path starts at backend/ because this module being run from run.py
-    for line in tokenfile:
+with open("backend/tokens_DONOTPUSH.txt") as tokenFile: # Path starts at backend/ because this module being run from run.py
+    for line in tokenFile:
         (key, val) = line.split();
         tokenDict[key] = val;
 
@@ -22,3 +23,14 @@ def sendSMS(recipientNumber, message):
 
 def getMagicNumber():
     return tokenDict["twilio_sender_number"];
+
+def checkUniqueUser(fromNumber):
+    fromNumber = re.sub(r'[^\w]', '', fromNumber); # Removes all non-alphanumeric and non-underscore characters
+
+    hashedNumber = 0; # TODO: SHA256 goes here
+    with open("backend/uniquehashes.txt") as hashesFile:
+        for line in hashesFile:
+            if line == hashedNumber:
+                return False;
+        hashesFile.write(hashedNumber + "\n");
+        return True;
