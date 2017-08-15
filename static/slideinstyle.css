@@ -196,7 +196,7 @@ Main components
 }
 @media only screen and (min-width: 1170px) {
     .cd-panel-header {
-        width: 25%;
+        width: 22.5%;
     }
 }
 
@@ -311,24 +311,33 @@ Main components
 }
 .cd-panel-container .about-footer {
     position: relative;
-    bottom: 3em;
+    bottom: 6em;
     font-family: "Droid Sans", sans-serif;
     color: #fff;
     width: 100%;
     padding: 0px 5%;
     overflow: auto;
+    line-height: 1.4;
     /* smooth scrolling on touch devices */
     -webkit-overflow-scrolling: touch;
 }
+.cd-panel-container hr {
+    border-color: #fff;
+    opacity: 0.5;
+}
 
-.cd-panel-container .unique-users-footer {
+.cd-panel-container a {
+    color: #89ba2c;
+}
+.cd-panel-container .about-footer .unique-users {
     position: relative;
-    bottom: 3em;
     font-family: "Droid Sans", sans-serif;
     color: #fff;
     width: 100%;
     padding: 0px 5%;
     overflow: auto;
+    margin-top: 0.5em;
+    line-height: 1.1;
     /* smooth scrolling on touch devices */
     -webkit-overflow-scrolling: touch;
 }
@@ -340,7 +349,7 @@ Main components
 }
 @media only screen and (min-width: 1170px) {
     .cd-panel-container {
-        width: 25%;
+        width: 22.5%;
     }
 }
 
@@ -383,7 +392,7 @@ Main components
 .cd-panel-content p {
     font-size: 14px;
     font-size: 0.875rem;
-    line-height: 1.4;
+    line-height: 1.1;
     margin: 2em 0;
 }
 .cd-panel-content p:first-of-type {
@@ -393,6 +402,6 @@ Main components
     .cd-panel-content p {
             font-size: 16px;
             font-size: 1rem;
-            line-height: 1.6;
+            line-height: 1.3;
         }
 }

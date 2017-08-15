@@ -151,5 +151,5 @@ function setupPhoneNumber(magicNumber)
 
 function setupUniqueUsers(uniqueUsers)
 {
-    $(".unique-users-footer").text("Number of unique users who have texted the number: " + uniqueUsers);
+    $(".unique-users").text("Number of unique users who have texted the number: " + uniqueUsers);
 }
