@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
 
 body {
-    background: #5c6582; /* blue-gray */
+    background: #5c6582; /* blue-gray; should always be covered by video */
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     text-align: center;
@@ -22,22 +22,6 @@ video {
     background-size: cover;
 }
 
-/*
-#landing-text {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-
-    color: white;
-    text-align: center;
-    font-size: 150%;
-    letter-spacing: 0.025em;
-    position: relative;
-    padding: 0.025em;
-    margin: 0;
-    margin-top: 1em;
-}
-*/
-
 #loading-cover {
     position: fixed;
     height: 100%;
@@ -48,84 +32,70 @@ video {
     z-index: 1000;
 }
 
-#header {
+#landing-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1.5em;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
     color: white;
+
     text-align: center;
-    font-size: 400%;
-    letter-spacing: 0.025em;
     position: relative;
     padding: 0.025em;
     margin: 0;
-    margin-top: 1em;
-    font-weight: 700;
+}
 
+#header {
+    font-weight: 700;
+    font-size: 4rem;
+    letter-spacing: 0.025rem;
+    line-height: 1.2;
+
+    margin: 0;
+    margin-top: 1em;
     animation: header-fadein 3s;
     /*animation-timing-function: TODO*/
 }
 
-#phone-number-subtext, #timer-subtext,
-#user-count-subtext, #what-is-this {
-    line-height: 1.3;
-}
-
 #phone-number-subtext {
-    color: white;
-    text-align: center;
-    font-size: 150%;
-    letter-spacing: 0.04em;
-    opacity: 0;
-    position: relative;
-    padding: 0.025em;
-    margin: 0;
     font-weight: inherit;
+    font-size: inherit;
+    opacity: 0;
 
+    margin: 0;
     animation: subtext-fadein 2s;
     animation-delay: 2.5s;
     animation-fill-mode: forwards;
 }
 
 #timer-subtext {
-    color: white;
-    text-align: center;
-    font-size: 150%;
-    letter-spacing: 0.04em;
-    opacity: 0;
-    position: relative;
-    padding: 0.025em;
-    margin: 0;
     font-weight: inherit;
+    font-size: inherit;
+    opacity: 0;
 
+    margin: 0;
     animation: subtext-fadein 2s;
     animation-delay: 3.5s;
     animation-fill-mode: forwards;
 }
 
 #user-count-subtext {
-    color: white;
-    text-align: center;
-    font-size: 150%;
-    letter-spacing: 0.04em;
-    opacity: 0;
-    position: relative;
-    padding: 0.025em;
-    margin: 0;
     font-weight: inherit;
+    font-size: inherit;
+    opacity: 0;
 
+    margin: 0;
     animation: subtext-fadein 2s;
     animation-delay: 5.5s;
     animation-fill-mode: forwards;
 }
 
 #what-is-this {
-    color: #9bf97f;
-    text-align: center;
-    font-size: 125%;
-    letter-spacing: 0.04em;
-    opacity: 0;
-    position: relative;
-    padding: 0.025em;
-    margin: 50px;
     font-weight: inherit;
+    font-size: 1.25rem;
+    color: #9bf97f; /* green hex */
+    opacity: 0;
 
     animation: subtext-fadein 2s;
     animation-delay: 7.5s;
