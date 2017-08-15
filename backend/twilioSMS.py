@@ -1,5 +1,6 @@
 from twilio.rest import Client;
 import re; # Import regex
+import hashlib;
 
 tokenDict = {}; # Gets Twilio tokens from separate file
 with open("backend/tokens_DONOTPUSH.txt") as tokenFile: # Path starts at backend/ because this module being run from run.py
@@ -10,6 +11,13 @@ with open("backend/tokens_DONOTPUSH.txt") as tokenFile: # Path starts at backend
 ACCOUNT_SID = tokenDict["twilio_account_sid"];
 AUTH_TOKEN  = tokenDict["twilio_auth_token"];
 SENDER_NUMBER = tokenDict["twilio_sender_number"];
+
+uniqueUserCount = 0;
+with open("backend/uniquehashes.txt") as setupHashesFile:
+    for line in setupHashesFile:
+        global uniqueUserCount;
+        uniqueUserCount = uniqueUserCount + 1; # TODO: There must be a more efficient way of doing this
+
 
 client = Client(ACCOUNT_SID, AUTH_TOKEN);
 
@@ -26,11 +34,19 @@ def getMagicNumber():
 
 def checkUniqueUser(fromNumber):
     fromNumber = re.sub(r'[^\w]', '', fromNumber); # Removes all non-alphanumeric and non-underscore characters
+    fromNumber = fromNumber.encode("utf-8") # Encoding needed for hashing
 
-    hashedNumber = 0; # TODO: SHA256 goes here
-    with open("backend/uniquehashes.txt") as hashesFile:
+    hashedNumber = hashlib.sha256(fromNumber).hexdigest();
+    print("Just hashed a user's number: " + hashedNumber);
+    with open("backend/uniquehashes.txt", "r+") as hashesFile:
         for line in hashesFile:
-            if line == hashedNumber:
+            if line.rstrip("\n") == hashedNumber:
                 return False;
         hashesFile.write(hashedNumber + "\n");
+        global uniqueUserCount
+        uniqueUserCount = uniqueUserCount + 1;
         return True;
+
+def getUniqueUserCount():
+    global uniqueUserCount;
+    return uniqueUserCount;

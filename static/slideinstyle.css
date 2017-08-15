@@ -321,6 +321,18 @@ Main components
     -webkit-overflow-scrolling: touch;
 }
 
+.cd-panel-container .unique-users-footer {
+    position: relative;
+    bottom: 3em;
+    font-family: "Droid Sans", sans-serif;
+    color: #fff;
+    width: 100%;
+    padding: 0px 5%;
+    overflow: auto;
+    /* smooth scrolling on touch devices */
+    -webkit-overflow-scrolling: touch;
+}
+
 @media only screen and (min-width: 768px) {
     .cd-panel-container {
         width: 35%;

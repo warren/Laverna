@@ -52,6 +52,8 @@ $(document).ready(function()
         console.log("Time left is " + Math.floor(data.seconds));
         setupPhoneNumber(data.magicNumber);
         console.log("Magic number is " + data.magicNumber);
+        setupUniqueUsers(data.uniqueUsers);
+        console.log(data.uniqueUsers + " unique users set up.");
     });
 
     socket.on("resetTallies", function()
@@ -60,6 +62,11 @@ $(document).ready(function()
         usersQueued = 0;
         $("#user-count-subtext").text("There are currently 0 users in the queue.");
         console.log("Tallies reset!");
+    });
+
+    socket.on("setUniqueUsers", function(data)
+    {
+        setupUniqueUsers(data.uniqueUsers);
     });
 
     //open the lateral panel
@@ -140,4 +147,9 @@ function setupPhoneNumber(magicNumber)
     }
 
     $("#phone-number-subtext").text("The magic number is " + magicNumber + ",");
+}
+
+function setupUniqueUsers(uniqueUsers)
+{
+    $(".unique-users-footer").text("Number of unique users who have texted the number: " + uniqueUsers);
 }
