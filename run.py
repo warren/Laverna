@@ -33,22 +33,26 @@ def sms_reply():
     # If the user is removing themselves from the queue:
     elif fromNumber in mainLottery.getWaitingUsers() and fromMessage == "REMOVE":
         mainLottery.removeWaitingUser(fromNumber);
-        msg = resp.message("You have been successfully removed from the waiting queue for the next round. Rejoin at any time by texting this number again.");
+        userId = getUserId(fromNumber);
+        msg = resp.message("{}: You have been successfully removed from the waiting queue for the next round. Rejoin at any time by texting this number again.".format(userId));
         iconName = tallyIconDict.pop(fromNumber);
         # TODO: Fix potential valueError bug when unqueued user texts "REMOVE"
         socketio.emit("removeTally", {"iconName": iconName});
 
     # If the user is registered for the next round and is texting again:
     elif fromNumber in mainLottery.getWaitingUsers():
-        msg = resp.message("Hey again {}-- you're currently registered for the next round, which will begin in {}. You can remove yourself from the round by texting \"REMOVE\" to this number.".format(fromNumber, mainLottery.getTimeLeft()));
+        userId = getUserId(fromNumber);
+        msg = resp.message("{}: you're currently registered for the next round, which will begin in {}. You can remove yourself from the round by texting \"REMOVE\" to this number.".format(userId, mainLottery.getTimeLeft()));
 
     # If the user is has not been added to the queue yet:
     else:
         if checkUniqueUser(fromNumber) == True:
             print("A unique user just texted the number.");
             socketio.emit("setUniqueUsers", getUniqueUserCount());
-        mainLottery.addWaitingUser(fromNumber);
-        msg = resp.message("Thanks for the text, {}! You're now in the queue for the next round, which will begin in {} seconds.".format(fromNumber, mainLottery.getTimeLeft()));
+
+        userId = getUserId(fromNumber);
+        mainLottery.addWaitingUser(fromNumber); # TODO: Change this to code indexing
+        msg = resp.message("{}: Thanks for the text, {}! You're now in the queue for the next round, which will begin in {} seconds.".format(userId, fromNumber, mainLottery.getTimeLeft()));
         iconName = random.choice(open("iconlist.txt").readlines());
         while iconName in tallyIconDict: # If we have picked an icon that is already in use...
             iconName = random.choice(open("iconlist.txt").readlines()); # ... pick another and check again.
@@ -62,7 +66,6 @@ def tallyreset():
     socketio.emit("resetTallies");
     return "/tallyreset endpoint says 200!";
 
-
 @socketio.on("joined")
 def joined(message):
     print("Socket 'joined' was just called.");
@@ -72,6 +75,12 @@ def joined(message):
             iconNamesToAdd.append(value); # Append all icon names
 
     socketio.emit("setup", {"iconList": iconNamesToAdd, "seconds": mainLottery.getTimeLeft(), "magicNumber": getMagicNumber(), "uniqueUsers": getUniqueUserCount()});
+
+
+def getUserId(userNumber):
+    roundId = int(mainLottery.getRoundId(), 16);
+    phoneHash = int(computeHash(userNumber), 16);
+    return hex(roundId + phoneHash)[2:6]; # Gets the first 4 hex digits and removing the "0x". This is a string.
 
 
 if __name__ == "__main__":

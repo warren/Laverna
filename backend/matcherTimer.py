@@ -19,6 +19,8 @@ class matcherTimer():
         self.warningTimer = Timer(WARNING_TIMER_LENGTH, self.warnActiveUsers); # Prepares warning timer
         self.warningTimer.start();
 
+        self.roundId = ("%064x" % (random.randrange(10**80)))[:64]; # Forgive me father for I have sinned; all you need to know is that this generates a random 64-digit hex string
+
         print("New matcher timer created for time {}.".format(TIMER_LENGTH));
 
     def resetTimer(self):
@@ -28,6 +30,13 @@ class matcherTimer():
         self.startTime = time.time();
         self.timer.start();
         return;
+
+    def resetRoundId(self):
+        self.roundId = ("%064x" % (random.randrange(10**80)))[:64];
+        return;
+
+    def getRoundId(self):
+        return self.roundId;
 
     def getTimeLeft(self):
         return TIMER_LENGTH - (time.time() - self.startTime); # Returns in seconds
@@ -68,6 +77,7 @@ class matcherTimer():
     def resetMatcherTimer(self):
         self.waitingUsers = [];
         self.resetTimer();
+        self.resetRoundId();
         return;
 
     def pairUsers(self):

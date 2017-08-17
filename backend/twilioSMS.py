@@ -33,11 +33,8 @@ def getMagicNumber():
     return tokenDict["twilio_sender_number"];
 
 def checkUniqueUser(fromNumber):
-    fromNumber = re.sub(r'[^\w]', '', fromNumber); # Removes all non-alphanumeric and non-underscore characters
-    fromNumber = fromNumber.encode("utf-8") # Encoding needed for hashing
+    hashedNumber = computeHash(fromNumber);
 
-    hashedNumber = hashlib.sha256(fromNumber).hexdigest();
-    print("Just hashed a user's number: " + hashedNumber);
     with open("backend/uniquehashes.txt", "r+") as hashesFile:
         for line in hashesFile:
             if line.rstrip("\n") == hashedNumber:
@@ -46,6 +43,12 @@ def checkUniqueUser(fromNumber):
         global uniqueUserCount
         uniqueUserCount = uniqueUserCount + 1;
         return True;
+
+def computeHash(phoneNumber):
+    phoneNumber = re.sub(r'[^\w]', '', phoneNumber); # Removes all non-alphanumeric and non-underscore characters
+    phoneNumber = phoneNumber.encode("utf-8") # Encoding needed for hashing
+
+    return hashlib.sha256(phoneNumber).hexdigest();
 
 def getUniqueUserCount():
     global uniqueUserCount;
