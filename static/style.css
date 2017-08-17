@@ -54,7 +54,7 @@ video {
 
     margin: 0;
     margin-top: 1em;
-    animation: header-fadein 3s;
+    animation: header-fadein 2.25s;
     /*animation-timing-function: TODO*/
 }
 
@@ -65,7 +65,7 @@ video {
 
     margin: 0;
     animation: subtext-fadein 2s;
-    animation-delay: 2.5s;
+    animation-delay: 1.25s;
     animation-fill-mode: forwards;
 }
 
@@ -76,7 +76,7 @@ video {
 
     margin: 0;
     animation: subtext-fadein 2s;
-    animation-delay: 3.5s;
+    animation-delay: 1.5s;
     animation-fill-mode: forwards;
 }
 
@@ -87,7 +87,7 @@ video {
 
     margin: 0;
     animation: subtext-fadein 2s;
-    animation-delay: 5.5s;
+    animation-delay: 1.75s;
     animation-fill-mode: forwards;
 }
 
@@ -98,7 +98,7 @@ video {
     opacity: 0;
 
     animation: subtext-fadein 2s;
-    animation-delay: 7.5s;
+    animation-delay: 2s;
     animation-fill-mode: forwards;
 }
 
@@ -115,7 +115,7 @@ video {
 }
 
 @keyframes header-fadein {
-    from { opacity: 0; transform: translateY(-50%);}
+    from { opacity: 0; transform: translateY(-15%);}
     to   { opacity: 1; transform: translateY(0%);}
 }
 
