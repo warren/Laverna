@@ -29,17 +29,18 @@ class matcherTimer():
         requests.get("http://127.0.0.1:5000/tallyreset"); # Sends internal GET request that triggers the resetTallies socket emit. Hacky, but it seems necessary because flask_socketio won't allow importing SocketIO objects across modules
         self.startTime = time.time();
         self.timer.start();
+
+        self.warningTimer = Timer(WARNING_TIMER_LENGTH, self.warnActiveUsers);
+        self.warningTimer.start();
         return;
 
     def resetRoundId(self):
         self.roundId = ("%064x" % (random.randrange(10**80)))[:64];
         return;
 
-    def getRoundId(self):
-        return self.roundId;
-
     def getTimeLeft(self):
         return TIMER_LENGTH - (time.time() - self.startTime); # Returns in seconds
+        # TODO: Make this return a formatted string
 
     def getTimeLeftMessage(self):
         secondsLeft = self.getTimeLeft();
@@ -85,23 +86,21 @@ class matcherTimer():
             print("There were too few waiting users to start. Printing list of waitingUsers below:");
             print(self.getWaitingUsers());
 
-            for iterUser in self.waitingUsers: # This should actually only send one message, since "too few" means <= 1 user
-                sendSMS(iterUser, "Hey {}. Sorry, but there were too few players in the matching system ".format(iterUser) + \
-                "to start a round! If you would like to be added to the next round though, just text this number again.");
+            for iterUser in self.waitingUsers: # This should only send one message, since "too few" means <= 1 user
+                sendSMS(iterUser, "{}: You were the only person who texted the number this round! ".format(self.getUserId(iterUser)) + \
+                "The round has reset and you have been removed from the queue.");
             self.resetMatcherTimer();
             return;
 
         elif self.getNumberOfWaitingUsers() % 2 == 1: # If there are an odd number of waitingUsers
             aloneUser = self.getWaitingUsers[0]; # Picks one person to sit out
             self.removeWaitingUser(aloneUser);
-            sendSMS(aloneUser, "Sorry! There was an odd " + \
-            "number of players in the matching system! To pair everyone evenly you were chosen to sit out. " + \
-            "If you would like to be added to the next round of matching, just text this number again.");
-            # Sends message to the alone user saying they were chosen to sit out
+            sendSMS(aloneUser, "{}: Sorry! An odd ".format(self.getUserId(aloneUser)) + \
+            "number of people texted the number this round, and you were randomly chosen to sit out. You have been removed from the queue.");
 
         # We reach this point in the code if we have a good number of waitingUsers to start a round.
-        for finishedUser in self.activeUsers:
-            sendSMS(finishedUser, "Hey {}-- thanks for playing! The round is now over. To play again, text this number again!".format(finishedUser));
+        for finishedUser in self.activeUsers: # This affects only the finished users from the previous round
+            sendSMS(finishedUser, "Thanks for playing, {}. The round is now over.".format(self.getUserId(finishedUser)));
 
         random.shuffle(self.waitingUsers); # Scrambles the waitingUsers in the list
         self.activeUsers = self.waitingUsers;
@@ -109,8 +108,8 @@ class matcherTimer():
 
         print("Users have been paired. Pairings as follows:");
         for firstUser, secondUser in self.activeUserPairs:
-            sendSMS(firstUser, "Hey {}-- you are now paired with a random person. Say hi!".format(firstUser));
-            sendSMS(secondUser, "Hey {}-- you are now paired with a random person. Say hi!".format(secondUser));
+            sendSMS(firstUser, "{}: You are now paired with a random person. Say hi!".format(self.getUserId(firstUser)));
+            sendSMS(secondUser, "{}: You are now paired with a random person. Say hi!".format(self.getUserId(secondUser)));
             print("{} and {}".format(firstUser, secondUser));
 
         self.resetMatcherTimer(); # Resets the timer to do this all over again
@@ -142,6 +141,11 @@ class matcherTimer():
 
     def warnActiveUsers(self):
         for iterUser in self.activeUsers: # This should actually only send one message, since "too few" means <= 1 user
-            sendSMS(iterUser, "Hey {}-- this round will be ending in {}. After that, you will be disconnected ".format(iterUser, self.getTimeLeftMessage()) + \
-                            "from your match and this phone number will go back to registration mode.");
+            sendSMS(iterUser, "{}: This is a time update: the current round will end in {}. After that, you will be disconnected ".format(self.getUserId(iterUser), self.getTimeLeftMessage()) + \
+                            "from your pair and this phone number will return to registration mode.");
         return;
+
+    def getUserId(self, userNumber):
+        roundId = int(self.roundId, 16);
+        phoneHash = int(computeHash(userNumber), 16);
+        return hex(roundId + phoneHash)[2:6]; # Gets the first 4 hex digits and removing the "0x". This is a string.
