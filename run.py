@@ -28,6 +28,7 @@ def sms_reply():
 
     # If the user is playing in the round:
     if fromNumber in mainLottery.getActiveUsers():
+        sendSMS(mainLottery.getUserPairing(fromNumber), fromMessage); # Routes the sender's message to their pair and does not text back the sender
 
     # If the user is removing themselves from the queue:
     elif fromNumber in mainLottery.getWaitingUsers() and fromMessage == "REMOVE":

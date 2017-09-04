@@ -101,6 +101,10 @@ video {
     animation-delay: 2s;
     animation-fill-mode: forwards;
 }
+#what-is-this:hover {
+    text-shadow: 1px 1px 3px #000;
+    transition: text-shadow 0.25s;
+}
 
 #tallyIcons {
     color: white;

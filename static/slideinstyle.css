@@ -325,9 +325,12 @@ Main components
     border-color: #fff;
     opacity: 0.5;
 }
-
 .cd-panel-container a {
     color: #89ba2c;
+}
+.cd-panel-container a:hover {
+    text-shadow: 1px 1px 3px #000;
+    transition: text-shadow 0.25s;
 }
 .cd-panel-container .about-footer .unique-users {
     position: relative;
