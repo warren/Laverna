@@ -15,7 +15,7 @@ $(document).ready(function()
 
     socket.on("addTally", function(data)
     {
-        $("#tallyIcons").append('<i class="fa ' + data.iconName + '"></i>');
+        //$("#tallyIcons").append('<i class="fa ' + data.iconName + '"></i>');
         // data.iconName is a string containing the name of the chosen fa-icon
         usersQueued = usersQueued + 1;
 
@@ -31,7 +31,7 @@ $(document).ready(function()
 
     socket.on("removeTally", function(data)
     {
-        $("i:." + data.iconName, "#tallyIcons").remove();
+        //$("i:." + data.iconName, "#tallyIcons").remove();
         // Removes all i elements of tallyIcons that have the class name iconName
         usersQueued = usersQueued - 1;
 
@@ -58,7 +58,7 @@ $(document).ready(function()
 
     socket.on("resetTallies", function()
     {
-        $("#tallyIcons").empty();
+        //$("#tallyIcons").empty();
         usersQueued = 0;
         $("#user-count-subtext").text("There are currently 0 users in the queue.");
         console.log("Tallies reset!");
@@ -87,10 +87,10 @@ function setupTallies(iconList)
 {
     usersQueued = iconList.length;
 
-    for(i=0; i<usersQueued; i++)
+    /*for(i=0; i<usersQueued; i++)
     {
         $("#tallyIcons").append('<i class="fa ' + iconList[i] + '"></i>');
-    };
+    };*/
 
     if (usersQueued == 1)
     {
